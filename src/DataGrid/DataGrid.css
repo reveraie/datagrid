@@ -1,0 +1,189 @@
+/*
+
+Example grid html that use these classes:
+
+<div class="dg-grid">
+    <div class="dg-header">
+        <div class="dg-row">
+            <div class="dg-cell">col0</div>
+            <div class="dg-cell">col1</div>
+            <div class="dg-cell">col2</div>
+        </div>
+    </div>
+    <div class="dg-body">
+        <div class="dg-row dg-group">
+            <div class="dg-cell">Group 1</div>
+        </div>
+
+        <div class="dg-row">
+            <div class="dg-cell">row0 col0</div>
+            <div class="dg-cell">row0 col1</div>
+            <div class="dg-cell">row0 col2</div>
+        </div>
+        <div class="dg-row">
+            <div class="dg-cell">row1 col0</div>
+            <div class="dg-cell">row1 col1</div>
+            <div class="dg-cell">row1 col2</div>
+        </div>
+        <div class="dg-row">
+            <div class="dg-cell">row2 col0</div>
+            <div class="dg-cell">row2 col1</div>
+            <div class="dg-cell">row2 col2</div>
+        </div>
+    </div>
+</div>
+
+*/
+
+/* :root {
+  --template-palette-text-primary: rgb(11, 14, 20);
+  --template-palette-background-default: hsl(0, 0%, 99%);
+  --template-palette-background-paper: hsl(220, 35%, 97%);
+  --template-palette-divider: hsla(220, 20%, 80%, 0.4);
+  --template-palette-action-hover: hsla(220, 20%, 88%, 0.2);
+  --template-palette-action-selected: hsla(222, 66%, 54%, 0.33);
+} */
+
+/* the div container of the whole grid */
+.dg-grid {
+  --dg-background: var(--template-palette-background-default, hsl(0, 0%, 99%));
+  --dg-text-primary: var(--template-palette-text-primary, rgb(11, 14, 20));
+
+  --dg-header-background: var(
+    --template-palette-background-paper,
+    hsl(220, 35%, 97%)
+  );
+  --dg-header-weight: 500;
+
+  --dg-grid-radius: 8px;
+  --dg-border-color: var(--template-palette-divider, hsla(220, 20%, 80%, 0.4));
+
+  --dg-group-row-background: var(--dg-header-background);
+
+  /* --dg-row-background: #ff0000; */
+  --dg-highlight-row-background: var(
+    --template-palette-action-hover,
+    hsla(220, 20%, 88%, 0.2)
+  );
+  --dg-highlight-row-color: var(--dg-text-primary);
+  --dg-highlight-row-selected: var(
+    --template-palette-action-selected,
+    hsla(220, 20%, 88%, 0.3)
+  );
+  --dg-highlight-cell-border-color: var(
+    --template-palette-action-selected,
+    hsla(222, 66%, 54%, 0.33)
+  );
+  /* --dg-highlight-cell-background: #e5e5e5; */
+
+  --dg-cell-hover-border-size: 1px;
+  --dg-cell-padding-vert: 4px;
+  --dg-cell-padding-horz: 6px;
+  --dg-cell-margin: 0px;
+
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+
+  border: 1px solid var(--dg-border-color);
+  border-radius: var(--dg-grid-radius);
+  color: var(--dg-text-primary);
+  background-color: var(--dg-background);
+
+  font-size: 0.875rem;
+}
+
+/* the container of the rows */
+.dg-body {
+  display: flex;
+  flex-direction: column;
+  min-width: fit-content;
+  min-height: fit-content;
+}
+
+/* the container of each row, including the header */
+.dg-row,
+.dg-group-row {
+  display: flex;
+  flex-direction: row;
+  min-width: fit-content;
+
+  border-top: 1px solid var(--dg-border-color);
+}
+
+.dg-row {
+  background-color: var(--dg-row-background);
+}
+
+.dg-row-selected {
+  background-color: var(--dg-highlight-row-selected);
+}
+
+/* the container of the header row */
+.dg-header {
+  font-weight: var(--dg-header-weight);
+
+  display: flex;
+  min-width: fit-content;
+
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--dg-border-color);
+}
+
+.dg-header .dg-row {
+  background-color: var(--dg-header-background);
+}
+
+.dg-group-row {
+  flex: 1;
+
+  padding: var(--dg-cell-padding-vert) var(--dg-cell-padding-horz);
+  margin: var(--dg-cell-margin);
+
+  background-color: var(--dg-group-row-background);
+}
+
+.dg-row-loading {
+  flex: 1;
+
+  padding: var(--dg-cell-padding-vert) var(--dg-cell-padding-horz);
+  margin: var(--dg-cell-margin);
+}
+
+.dg-cell {
+  position: relative;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  padding: var(--dg-cell-padding-vert) var(--dg-cell-padding-horz);
+  margin: var(--dg-cell-margin);
+}
+
+.dg-body .dg-row:hover {
+  background-color: var(--dg-highlight-row-background);
+}
+
+.dg-cell:hover {
+  border: var(--dg-cell-hover-border-size) solid
+    var(--dg-highlight-cell-border-color);
+  background-color: var(--dg-highlight-cell-color);
+  padding: calc(var(--dg-cell-padding-vert) - var(--dg-cell-hover-border-size))
+    calc(var(--dg-cell-padding-horz) - var(--dg-cell-hover-border-size));
+}
+
+@media (prefers-color-scheme: dark) {
+  .dg-grid {
+    --dg-background: hsl(220, 15%, 15%);
+    --dg-text-primary: rgb(245, 245, 245);
+    --dg-header-background: hsl(220, 20%, 20%);
+    --dg-border-color: hsla(220, 20%, 40%, 0.6);
+    --dg-group-row-background: var(--dg-header-background);
+    --dg-highlight-row-background: hsla(220, 20%, 30%, 0.2);
+    --dg-highlight-row-selected: hsla(222, 66%, 44%, 0.33);
+    --dg-highlight-cell-border-color: hsla(222, 66%, 44%, 0.33);
+  }
+}
