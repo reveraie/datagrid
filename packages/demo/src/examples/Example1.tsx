@@ -1,11 +1,8 @@
-// import { alabala } from "@alabala/pack2"
 import { DataGrid } from "@reveraie/datagrid";
 
-function Example1() {
+import '@reveraie/datagrid/dist/index.css';
 
-    // debugger;
-    // console.log(alabala("koko"));
-    // console.log(<DataGrid columns={[]} rows={[]} />);
+function Example1() {
 
     const columns = [{
         name: 'Column 1',
