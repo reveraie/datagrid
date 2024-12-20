@@ -1,4 +1,4 @@
-import { DataGrid } from "../../../dist";
+import { DataGrid } from "@reveraie/datagrid";
 
 function Example1() {
     const columns = [{
