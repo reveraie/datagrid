@@ -2,5 +2,13 @@
   "private": "true",
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "scripts": {
+    "build": "npm run build:datagrid && npm run build:pack2 && npm run build:demo",
+    "build:datagrid": "npm --workspace packages/datagrid run build",
+    "build:demo": "npm --workspace packages/demo run build",
+    "build:pack2": "npm --workspace packages/pack2 run build",
+    "start": "npm --workspace packages/demo run dev"
+
+  }
 }

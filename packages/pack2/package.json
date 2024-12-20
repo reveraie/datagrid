@@ -1,0 +1,19 @@
+{
+  "name": "@alabala/pack2",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "module": "dist/index.cjs",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [ "dist" ],
+  "scripts": {
+    "build": "tsup index.ts --format esm,cjs --dts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "tsup": "^8.3.5"
+  }
+}
