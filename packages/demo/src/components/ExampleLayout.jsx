@@ -4,6 +4,8 @@ import { CodeBlock } from './CodeBlock';
 import clsx from 'clsx';
 import { ExampleSection } from './ExampleSection';
 
+import './light-dark-simulation.css';
+
 export function ExampleLayout({ examples }) {
   const [darkMode, setDarkMode] = useState(false);
   const mainContentRef = useRef(null);
@@ -11,6 +13,7 @@ export function ExampleLayout({ examples }) {
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
+    document.documentElement.setAttribute("data-theme", !darkMode ? 'dark' : 'light');
     document.documentElement.classList.toggle('dark');
   };
 
