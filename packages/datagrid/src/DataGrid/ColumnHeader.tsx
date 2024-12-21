@@ -1,6 +1,6 @@
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { DataGridColumn } from './DataGridModels';
-import React from 'react';
+import { labelOf } from './utils';
 
 interface ColumnHeaderProps {
   column: DataGridColumn;
@@ -15,7 +15,9 @@ function ColumnHeader({
   onClick,
   onChangeSize,
 }: ColumnHeaderProps) {
-  const [width, setWidth] = useState<number | undefined>(column.width);
+  const [width, setWidth] = useState<number | undefined>(
+    typeof column.width === 'number' ? column.width : 100
+  );
   const [isResizing, setIsResizing] = useState(false);
 
   const handleResize = useCallback(
@@ -25,13 +27,12 @@ function ColumnHeader({
       const startX = event.clientX;
       const startWidth = width || 0;
 
-      console.log('onMouseDown', event.clientX);
+      // console.log('onMouseDown', event.clientX);
 
       const onMouseMove = (moveEvent: MouseEvent) => {
-        console.log('onMouseMove', moveEvent.clientX);
+        // console.log('onMouseMove', moveEvent.clientX);
         setIsResizing(true);
-        const newWidth = Math.max(startWidth + moveEvent.clientX - startX, 50); // Minimum width of 50px
-        console.log(`newWidth = ${newWidth}`);
+        const newWidth = Math.max(startWidth + moveEvent.clientX - startX, 10);
         if (onChangeSize) onChangeSize(index || 0, newWidth);
         setWidth(newWidth);
       };
@@ -53,12 +54,8 @@ function ColumnHeader({
   }, [column, onClick, isResizing]);
 
   return (
-    <div
-      aria-label={`Column ${index + 1}`}
-      onClick={handleOnClick}
-      // style={{ width }}
-    >
-      {column.label || column.name}
+    <div aria-label={`Column ${index + 1}`} onClick={handleOnClick}>
+      {labelOf(column)}
       <div
         aria-label={`Column ${index + 1} resize handler`}
         style={{

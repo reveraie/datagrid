@@ -10,8 +10,8 @@ export function BasicExample() {
   // DataGridColumn[]
   const columns = [{ 
     name: "status",
-    label: "-",
     width: 32,
+    allowResize: false,
     render: (column, row, index) => {
       return (<div>{row.values[column.name] ? <EnvelopeOpenIcon className="w-full h-full" /> : <EnvelopeIcon className="w-full h-full" />}</div>);
     },
@@ -21,8 +21,8 @@ export function BasicExample() {
     width: 100
   }, { 
     name: "favorite",
-    label: "-",
     width: 32,
+    allowResize: false,
     render: (column, row, index) => {
       return (<div>{row.values[column.name] ? <StarIconSolid className="w-full h-full" /> : <StarIcon className="w-full h-full" />}</div>);
     },
@@ -32,8 +32,8 @@ export function BasicExample() {
     width: 200,
   }, {
     name: "attachments",
-    label: "Attachments",
     width: 32,
+    allowResize: false,
     render: (column, row, index) => {
       return (<div>{row.values[column.name] ? <PaperClipIcon className="w-full h-full" /> : null}</div>);
     },

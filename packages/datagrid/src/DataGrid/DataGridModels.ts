@@ -1,12 +1,16 @@
+import { ReactNode } from "react";
+
 export interface DataGridColumn {
   name: string;
-  label?: string;
-  width?: number;
+  label?: ReactNode | ((col: DataGridColumn) => ReactNode);
+  width?: number | string;
+  allowResize?: boolean;
+  autoSize?: boolean;
   render?: (
     column: DataGridColumn,
     row: DataGridRow,
     index: number
-  ) => React.ReactNode;
+  ) => ReactNode;
 }
 
 export interface DataGridRow {

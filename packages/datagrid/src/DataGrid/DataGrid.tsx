@@ -10,6 +10,7 @@ import './DataGrid.css';
 import ColumnHeader from './ColumnHeader';
 import useColumnSize from './useColumnSize';
 import React from 'react';
+import ColumnHeaderFixed from './ColumnHeaderFixed';
 
 const debug_log: (..._args: unknown[]) => void = () => {
   // console.log(...args);
@@ -102,14 +103,21 @@ const gridHeaderCell = (
   index: number,
   changeSize?: (index: number, newSize: number | string | undefined) => void,
   onClick?: (column: DataGridColumn) => void
-) => (
-  <ColumnHeader
-    column={column}
-    index={index}
-    onClick={onClick}
-    onChangeSize={changeSize}
-  />
-);
+) =>
+  column.allowResize === false ? (
+    <ColumnHeaderFixed
+      column={column}
+      index={index}
+      onClick={onClick}
+    />
+  ) : (
+    <ColumnHeader
+      column={column}
+      index={index}
+      onClick={onClick}
+      onChangeSize={changeSize}
+    />
+  );
 
 function gridCell(
   column: DataGridColumn,
