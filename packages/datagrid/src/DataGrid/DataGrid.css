@@ -107,6 +107,7 @@ Example grid html that use these classes:
   display: flex;
   flex-direction: row;
   min-width: fit-content;
+  width: 100%;
 
   border-top: 1px solid var(--dg-border-color);
 }
