@@ -10,6 +10,7 @@ export function CodeBlock({ code, darkMode }) {
       customStyle={{
         margin: 0,
         borderRadius: '0.5rem',
+        height: '100%',
       }}
     >
       {code}

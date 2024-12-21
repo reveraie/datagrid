@@ -57,6 +57,6 @@ export function BasicExample() {
     { values: { "status": false, "from": "Noah Wilson", "favorite": true, "subject": "Feature request", "attachments": 2, "date": "2023-01-12" } },
   ];
   return (
-    <DataGrid columns={columns} rows={rows} />
+    <DataGrid className="max-h-64" columns={columns} rows={rows} />
   );
 }

@@ -48,6 +48,8 @@ interface DataGridRenderComponents {
 }
 
 type DataGridProps = {
+  className?: string;
+  style?: React.CSSProperties;
   columns: DataGridColumn[];
   rows?: DataGridRow[];
   totalRowCount?: number;
@@ -163,6 +165,8 @@ function newId() {
 }
 
 function DataGrid({
+  className,
+  style,
   columns = [],
   rows = [],
   totalRowCount,
@@ -245,7 +249,8 @@ function DataGrid({
 
   return (
     <div
-      className={`dg-grid dg-grid-${id.current}`}
+      className={`dg-grid dg-grid-${id.current} ${className}`}
+      style={style}
       aria-label="Data grid"
       {...restProps}
     >

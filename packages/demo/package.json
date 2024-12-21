@@ -9,12 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.18",
+    "@reveraie/datagrid": "*",
+    "clsx": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-syntax-highlighter": "^15.5.0",
-    "@heroicons/react": "^2.0.18",
-    "clsx": "^2.0.0",
-    "@reveraie/datagrid": "*"
+    "react-syntax-highlighter": "^15.5.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
