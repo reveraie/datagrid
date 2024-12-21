@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -13,7 +13,8 @@
     "react-dom": "^18.2.0",
     "react-syntax-highlighter": "^15.5.0",
     "@heroicons/react": "^2.0.18",
-    "clsx": "^2.0.0"
+    "clsx": "^2.0.0",
+    "@reveraie/datagrid": "*"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

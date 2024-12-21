@@ -34,18 +34,16 @@ export function ExampleSection({ example, darkMode }) {
       <h2 className="text-2xl font-bold mb-6">{example.title}</h2>
       <div className="grid grid-cols-2 gap-8">
         <div className={clsx(
-          'p-6 rounded-lg',
+          'rounded-lg',
           darkMode ? 'bg-gray-800' : 'bg-gray-50'
         )}>
-          <h3 className="text-lg font-semibold mb-4">Code</h3>
           <CodeBlock code={example.code} darkMode={darkMode} />
         </div>
         <div className={clsx(
-          'p-6 rounded-lg',
+          'rounded-lg',
           darkMode ? 'bg-gray-800' : 'bg-gray-50'
         )}>
-          <h3 className="text-lg font-semibold mb-4">Result</h3>
-          <div className="p-4 rounded-lg bg-white dark:bg-gray-700">
+          <div className="rounded-lg bg-white dark:bg-gray-700">
             {isVisible && example.component}
           </div>
         </div>
