@@ -29,7 +29,7 @@ export function BasicExample() {
   }, {
     name: "subject",
     label: "Subject",
-    width: 200,
+    width: "*",
   }, {
     name: "attachments",
     width: 32,

@@ -2,11 +2,14 @@ import React from 'react';
 import { useCallback, useRef } from 'react';
 
 function widthValue(size: string | number | undefined) {
+  if (size === "*") {
+    return `flex-grow: 1;`;
+  }
   if (typeof size === 'number') {
-    return `${size}px`;
+    return `width: ${size}px;`;
   }
   if (typeof size === 'undefined') {
-    return 'auto';
+    return 'width: 100px;';
   }
   return size;
 }
@@ -19,7 +22,7 @@ function styleContent(id: string, widths: (string | number | undefined)[]) {
                       (size, index) =>
                         `.dg-row .dg-cell:nth-child(${
                           index + 1
-                        }) { width: ${widthValue(size)}; }`
+                        }) { ${widthValue(size)}; }`
                     )
                     .join('\n')}
                 }

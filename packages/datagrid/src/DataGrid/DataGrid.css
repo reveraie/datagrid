@@ -1,16 +1,17 @@
 /*
 
-Example grid html that use these classes:
+Example grid structure that use these classes:
 
 <div class="dg-grid">
-    <div class="dg-header">
-        <div class="dg-row">
-            <div class="dg-cell">col0</div>
-            <div class="dg-cell">col1</div>
-            <div class="dg-cell">col2</div>
-        </div>
-    </div>
     <div class="dg-body">
+        <div class="dg-header">
+            <div class="dg-row">
+                <div class="dg-cell">col0</div>
+                <div class="dg-cell">col1</div>
+                <div class="dg-cell">col2</div>
+            </div>
+        </div>
+
         <div class="dg-row dg-group">
             <div class="dg-cell">Group 1</div>
         </div>

@@ -255,8 +255,10 @@ function DataGrid({
       {...restProps}
     >
       {styleElement}
-      <div className="dg-header">{header}</div>
-      <div className="dg-body">{body}</div>
+      <div className="dg-body">
+        <div className="dg-header">{header}</div>
+        {body}
+      </div>
     </div>
   );
 }
