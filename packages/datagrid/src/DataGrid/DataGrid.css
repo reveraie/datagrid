@@ -56,7 +56,6 @@ Example grid structure that use these classes:
   );
   --dg-header-weight: 500;
 
-  --dg-grid-radius: 8px;
   --dg-border-color: var(--template-palette-divider, hsla(220, 20%, 80%, 0.4));
 
   --dg-group-row-background: var(--dg-header-background);
@@ -78,9 +77,12 @@ Example grid structure that use these classes:
   /* --dg-highlight-cell-background: #e5e5e5; */
 
   --dg-cell-hover-border-size: 1px;
-  --dg-cell-padding-vert: 4px;
-  --dg-cell-padding-horz: 6px;
+  --dg-grid-radius: 0.5rem;
+
+  --dg-cell-padding-vert: 0.25rem;
+  --dg-cell-padding-horz: 0.375rem;
   --dg-cell-margin: 0px;
+  --dg-font-size: 0.875rem;
 
   display: flex;
   flex-direction: column;
@@ -91,7 +93,14 @@ Example grid structure that use these classes:
   color: var(--dg-text-primary);
   background-color: var(--dg-background);
 
-  font-size: 0.875rem;
+  font-size: var(--dg-font-size);
+}
+
+.dg-comfort {
+  --dg-cell-padding-vert: 0.5rem;
+  --dg-cell-padding-horz: 0.375rem;
+  --dg-cell-margin: 0px;
+  --dg-font-size: 1rem;
 }
 
 /* the container of the rows */
@@ -165,11 +174,11 @@ Example grid structure that use these classes:
   margin: var(--dg-cell-margin);
 }
 
-.dg-body .dg-row:hover {
+.dg-body .dg-row:hover:not(.dg-header *) {
   background-color: var(--dg-highlight-row-background);
 }
 
-.dg-cell:hover {
+.dg-cell:hover:not(.dg-header *) {
   border: var(--dg-cell-hover-border-size) solid
     var(--dg-highlight-cell-border-color);
   background-color: var(--dg-highlight-cell-color);

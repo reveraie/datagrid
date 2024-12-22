@@ -1,11 +1,25 @@
 import { BasicExample } from './BasicExample';
 import { CustomizationExample } from './CustomizationExample';
 import { AdvancedExample } from './AdvancedExample';
+import { ComfortExample } from './ComfortExample';
 
 export const examples = [
   {
     title: 'Basic Usage',
     component: <BasicExample />,
+    code: `import { YourComponent } from 'your-package';
+
+function BasicExample() {
+  return (
+    <YourComponent>
+      Basic example content
+    </YourComponent>
+  );
+}`,
+  },
+  {
+    title: 'Comfort Spacing',
+    component: <ComfortExample />,
     code: `import { YourComponent } from 'your-package';
 
 function BasicExample() {
