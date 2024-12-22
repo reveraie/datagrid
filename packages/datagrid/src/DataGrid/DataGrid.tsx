@@ -126,7 +126,7 @@ function gridCell(
 ): ReactNode | undefined {
   return column.render
     ? column.render(column, row, index)
-    : `${row.values[column.name] || ''}`;
+    : row.values[column.name] as ReactNode;
 }
 
 const testLoadRows: LoadPageDataCallbackType = async (

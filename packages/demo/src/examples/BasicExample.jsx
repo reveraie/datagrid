@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import {
   EnvelopeIcon,
@@ -12,6 +12,12 @@ import { DataGrid } from "@reveraie/datagrid";
 import "@reveraie/datagrid/dist/index.css";
 
 export function BasicExample() {
+
+  const handleStartClick = useCallback((e) => {
+    debugger;
+    console.log(e.target);
+  }, []);
+
   // DataGridColumn[]
   const columns = [
     {
@@ -20,7 +26,7 @@ export function BasicExample() {
       allowResize: false,
       render: (column, row, index) => {
         return (
-          <div>
+          <div data-row-index={index} onClick={handleStartClick}>
             {row.values[column.name] ? (
               <EnvelopeOpenIcon className="w-full h-full" />
             ) : (
