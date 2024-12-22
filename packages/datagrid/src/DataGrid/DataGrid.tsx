@@ -72,9 +72,7 @@ const EMPTY_ROW: DataGridRow = {
 const groupRow = (row: DataGridRow, key: number = 0) => {
   return (
     <div key={key} className="dg-group-row">
-      {Object.keys(row.values)
-        .map((key) => `${key}: ${row.values[key]}`)
-        .join(', ')}
+      {row.values[Object.keys(row.values)[0]] as ReactNode}
     </div>
   );
 };

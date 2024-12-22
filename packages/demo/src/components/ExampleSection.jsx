@@ -34,6 +34,7 @@ export function ExampleSection({ example, darkMode }) {
       <h2 className="text-2xl font-bold mb-6">{example.title}</h2>
       <div className="grid grid-cols-2 gap-8">
         <div className={clsx(
+          'max-h-64 overflow-y-auto',
           'rounded-lg',
           darkMode ? 'bg-gray-800' : 'bg-gray-50'
         )}>

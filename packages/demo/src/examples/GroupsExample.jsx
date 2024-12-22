@@ -11,7 +11,7 @@ import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
 import { DataGrid } from "@reveraie/datagrid";
 import "@reveraie/datagrid/dist/index.css";
 
-export function BasicExample() {
+export function GroupsExample() {
   // DataGridColumn[]
   const columns = [
     {
@@ -78,6 +78,12 @@ export function BasicExample() {
   ];
   const rows = [
     {
+      type: "group",
+      values: {
+        Since: "Today",
+      },
+    },
+    {
       values: {
         status: true,
         from: "Bob Wilson",
@@ -115,6 +121,12 @@ export function BasicExample() {
         subject: "Bug report",
         attachments: 1,
         date: "2023-01-04",
+      },
+    },
+    {
+      type: "group",
+      values: {
+        Since: "Yesterday",
       },
     },
     {

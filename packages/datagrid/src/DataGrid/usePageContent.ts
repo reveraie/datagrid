@@ -1,7 +1,7 @@
 import { JSX, ReactNode, useEffect, useRef, useState } from 'react';
 import { LoadPageContentCallbackType } from './DataGridPage';
 
-const debug_log: (..._args: unknown[]) => void = () => {
+const debug_log: (...args: unknown[]) => void = (..._args) => {
   // console.log(...args);
 };
 
@@ -36,7 +36,7 @@ export function usePageContent(
     loadRows(startIndex, size, abortController.signal)
       .then((result) => {
         if (!abortController.signal.aborted) {
-          debug_log('loading completed', startIndex, size);
+          debug_log('loading completed', startIndex, size, result);
           setContent(result);
         }
       })
