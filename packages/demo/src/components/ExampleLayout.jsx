@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
-import { CodeBlock } from './CodeBlock';
 import clsx from 'clsx';
 import { ExampleSection } from './ExampleSection';
 
@@ -8,6 +7,14 @@ import './light-dark-simulation.css';
 
 export function ExampleLayout({ examples }) {
   const [darkMode, setDarkMode] = useState(false);
+  
+  useEffect(() => {
+    const systemPrefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+    setDarkMode(systemPrefersDark);
+    document.documentElement.setAttribute("data-theme", systemPrefersDark ? 'dark' : 'light');
+    document.documentElement.classList.toggle('dark', systemPrefersDark);
+  }, []);
+
   const mainContentRef = useRef(null);
   const exampleRefs = useRef([]);
 
