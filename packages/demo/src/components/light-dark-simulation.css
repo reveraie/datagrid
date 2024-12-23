@@ -1,0 +1,26 @@
+[data-theme="dark"] .dg-grid {
+  --dg-background: hsl(220, 15%, 15%);
+  --dg-text-primary: rgb(245, 245, 245);
+  --dg-header-background: hsl(220, 20%, 20%);
+  --dg-border-color: hsla(220, 20%, 40%, 0.6);
+  --dg-group-row-background: var(--dg-header-background);
+  --dg-highlight-row-background: hsla(220, 20%, 30%, 0.2);
+  --dg-highlight-row-selected: hsla(222, 66%, 44%, 0.33);
+  --dg-highlight-cell-border-color: hsla(222, 66%, 44%, 0.33);
+}
+
+[data-theme="light"] .dg-grid {
+  --dg-background: hsl(0, 0%, 99%);
+  --dg-text-primary: rgb(11, 14, 20);
+  --dg-header-background: hsl(220, 35%, 97%);
+  --dg-border-color: hsla(220, 20%, 80%, 0.4);
+  --dg-highlight-row-background: hsla(220, 20%, 88%, 0.2);
+  --dg-highlight-row-selected: hsla(220, 20%, 88%, 0.3);
+  --dg-highlight-cell-border-color: hsla(222, 66%, 54%, 0.33);
+
+}
+
+input {
+  background-color: var(--dg-background);
+  color: var(--dg-text-primary);
+}
