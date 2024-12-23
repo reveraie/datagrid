@@ -22,8 +22,8 @@ interface GridPageProps {
   timeout?: number;
 }
 
-const debug_log: (..._args: unknown[]) => void = () => {
-  // console.log(...args);
+const debug_log: (...args: unknown[]) => void = (...args) => {
+  console.log(...args);
 };
 
 function createLoadingContent(startIndex: number, size: number) {
