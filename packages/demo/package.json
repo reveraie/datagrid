@@ -1,12 +1,14 @@
 {
-  "name": "vite-starter",
+  "homepage": "https://reveraie.github.io/datagrid",
+  "name": "@reveraie/datagrid-demo",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
@@ -21,6 +23,7 @@
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.3",
     "autoprefixer": "^10.4.14",
+    "gh-pages": "^6.2.0",
     "postcss": "^8.4.27",
     "tailwindcss": "^3.3.3",
     "vite": "^5.4.8"
