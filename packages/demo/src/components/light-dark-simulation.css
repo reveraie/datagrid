@@ -17,4 +17,10 @@
   --dg-highlight-row-background: hsla(220, 20%, 88%, 0.2);
   --dg-highlight-row-selected: hsla(220, 20%, 88%, 0.3);
   --dg-highlight-cell-border-color: hsla(222, 66%, 54%, 0.33);
+
+}
+
+input {
+  background-color: var(--dg-background);
+  color: var(--dg-text-primary);
 }
