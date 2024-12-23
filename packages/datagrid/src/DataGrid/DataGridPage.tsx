@@ -23,7 +23,7 @@ interface GridPageProps {
 }
 
 const debug_log: (...args: unknown[]) => void = (...args) => {
-  console.log(...args);
+  // console.log(...args);
 };
 
 function createLoadingContent(startIndex: number, size: number) {
