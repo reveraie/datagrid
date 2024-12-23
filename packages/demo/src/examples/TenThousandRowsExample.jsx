@@ -224,20 +224,22 @@ export function TenThousandRowsExample() {
   const loadingPlaceholder = useCallback((startIndex, size) => {
     return Array.from({ length: size }, (_, index) => index + startIndex).map(
       (_, index) => (
-        <div key={startIndex + index} className="dg-row dg-row-loading h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 full-width mb-4"></div>
+        <div
+          key={startIndex + index}
+          className="dg-row dg-row-loading h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 full-width mb-4"
+        ></div>
       )
     );
   });
-  
 
   return (
     <DataGrid
       className="max-h-64"
       columns={columns}
-      rows={rows}
-      totalRowCount={10000}
-      loadRows={loadRows}
-      placeholder={loadingPlaceholder}
+      rows={rows} // the first "static" rows
+      totalRowCount={10000} // provide the total rows count
+      loadRows={loadRows} // load rows on demand
+      placeholder={loadingPlaceholder} // what component to display as a placeholder
     />
   );
 }

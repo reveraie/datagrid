@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 
 import {
   EnvelopeIcon,
@@ -13,11 +13,6 @@ import "@reveraie/datagrid/dist/index.css";
 
 export function BasicExample() {
 
-  const handleStartClick = useCallback((e) => {
-    debugger;
-    console.log(e.target);
-  }, []);
-
   // DataGridColumn[]
   const columns = [
     {
@@ -26,7 +21,7 @@ export function BasicExample() {
       allowResize: false,
       render: (column, row, index) => {
         return (
-          <div data-row-index={index} onClick={handleStartClick}>
+          <div>
             {row.values[column.name] ? (
               <EnvelopeOpenIcon className="w-full h-full" />
             ) : (
@@ -47,7 +42,7 @@ export function BasicExample() {
       allowResize: false,
       render: (column, row, index) => {
         return (
-          <div>
+          <div onClick={handleStartClick}>
             {row.values[column.name] ? (
               <StarIconSolid className="w-full h-full" />
             ) : (
@@ -82,8 +77,7 @@ export function BasicExample() {
       width: 100,
     },
   ];
-  const rows = [
-    {
+  const [rows, setRows] = useState([{
       values: {
         status: true,
         from: "Bob Wilson",
@@ -203,6 +197,19 @@ export function BasicExample() {
         date: "2023-01-12",
       },
     },
-  ];
+  ]);
+
+  const handleStartClick = useCallback((e) => {
+    const row = e.target.closest(".dg-row");
+    const rowIndex = row.attributes["data-row-id"].value;
+    rows[rowIndex].values.favorite = !rows[rowIndex].values.favorite;
+    setRows((prev) => {
+      const updatedRows = [...prev];
+      updatedRows[rowIndex] = { ...rows[rowIndex], favorite: !rows[rowIndex].values.favorite };
+      return updatedRows;
+    })
+  }, []);
+
+
   return <DataGrid className="max-h-64" columns={columns} rows={rows} />;
 }

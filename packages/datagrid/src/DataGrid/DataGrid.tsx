@@ -88,7 +88,7 @@ const gridRow = (
   key: number = 0
 ) => {
   return (
-    <div key={key} className="dg-row">
+    <div key={key} className="dg-row" data-row-id={key}>
       {columns.map((col, index) => (
         <div key={index} className={`dg-cell dg-cell-${index + 1}`}>
           {value(col, row, index)}
@@ -197,8 +197,8 @@ function DataGrid({
       if (abortSignal.aborted) throw new Error('aborted');
       return moreRows.map((row, index) => {
         return row.type === 'group'
-          ? renderGroupRow(row, index)
-          : renderGridRow(columns, row, renderGridCell, index);
+          ? renderGroupRow(row, startIndex + index)
+          : renderGridRow(columns, row, renderGridCell, startIndex + index);
       });
     },
     [columns, loadRows, renderGridCell, renderGridRow, renderGroupRow]

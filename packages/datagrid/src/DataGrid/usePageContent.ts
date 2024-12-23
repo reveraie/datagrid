@@ -41,7 +41,7 @@ export function usePageContent(
         }
       })
       .catch((error) => {
-        console.error(`Page ${startIndex} failed to load:`, error);
+        debug_log(`Page ${startIndex} failed to load:`, error);
       })
       .finally(() => {
         if (abortControllerRef.current === abortController) {

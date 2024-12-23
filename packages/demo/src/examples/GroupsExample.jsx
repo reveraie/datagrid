@@ -210,5 +210,7 @@ export function GroupsExample() {
       },
     },
   ];
-  return <DataGrid className="max-h-64" columns={columns} rows={rows} />;
+  return <DataGrid className="max-h-64" 
+    columns={columns} 
+    rows={rows} />;
 }

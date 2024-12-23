@@ -19,6 +19,7 @@
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx,json,css,md}",
     "build": "tsup src/index.ts --format cjs,esm --dts --sourcemap",
     "test": "jest",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register ../../node_modules/.bin/jest --runInBand",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
   },
@@ -67,6 +68,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.1"
