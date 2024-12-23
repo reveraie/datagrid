@@ -35,7 +35,8 @@
     "data",
     "virtual",
     "dynamic",
-    "loading"
+    "loading",
+    "reveraie"
   ],
   "author": "skkdevcraft",
   "license": "MIT",
