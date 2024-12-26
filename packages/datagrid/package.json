@@ -2,6 +2,7 @@
   "name": "@reveraie/datagrid",
   "version": "0.0.1",
   "description": "React Data Grid Component",
+  "private": false,
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
