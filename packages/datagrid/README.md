@@ -29,7 +29,7 @@ yarn add @reveraie/datagrid
 
 or just copy the `packages/datagrid/src/DataGrid` folder in your project.
 
-## Usage
+## How to use it
 
 Here's a basic example of how to use the DataGrid component in a React application:
 
@@ -128,7 +128,7 @@ export default App;
 
 ## Documentation and examples
 
-For more examples and usage instructions, please refer to the [Reveraie DataGrid Demo Examples](https://github.com/reveraie/datagrid/tree/main/packages/demo/src/examples).
+[Demo and Examples](https://reveraie.github.io/datagrid/)
 
 ## Background and design philosophy
 
@@ -136,7 +136,7 @@ This project is part of the Reveraie CRM ecosystem. It will remain in active dev
 
 ## Contributing
 
-Contributions are welcome! Please read [CONTRIBUTING](https://github.com/reveraie/datagrid/blob/main/CONTRIBUTING) for more information.
+Contributions are welcome!
 
 ## License
 
