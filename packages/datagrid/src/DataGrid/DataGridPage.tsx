@@ -1,7 +1,6 @@
-import { JSX, ReactNode, useMemo } from 'react';
+import React, { JSX, ReactNode, useMemo } from 'react';
 import useVisible from './useVisible';
 import { usePageContent } from './usePageContent';
-import React from 'react';
 
 export type LoadPageContentCallbackType = (
   startIndex: number,
@@ -22,7 +21,7 @@ interface GridPageProps {
   timeout?: number;
 }
 
-const debug_log: (...args: unknown[]) => void = (...args) => {
+const debug_log: (...args: unknown[]) => void = (/*..._args*/) => {
   // console.log(...args);
 };
 
@@ -64,7 +63,7 @@ function GridPage({
   );
 
   return (
-    <div ref={ref} className="dg-page">
+    <div ref={ref as React.RefObject<HTMLDivElement>} className="dg-page">
       {content}
     </div>
   );
