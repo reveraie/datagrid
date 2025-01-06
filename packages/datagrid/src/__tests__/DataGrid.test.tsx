@@ -89,7 +89,7 @@ describe('DataGrid Component', () => {
 
     await act(async () => {
       await new Promise((resolve) => setTimeout(resolve, 100));
-    })
+    });
 
     expect(intersectionObserver.observe).toHaveBeenCalledTimes(1);
 

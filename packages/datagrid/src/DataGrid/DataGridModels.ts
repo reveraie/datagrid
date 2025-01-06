@@ -1,4 +1,10 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
+
+export type DataGridColumnRender = (
+  column: DataGridColumn,
+  row: DataGridRow,
+  index: number
+) => ReactNode;
 
 export interface DataGridColumn {
   name: string;
@@ -6,11 +12,7 @@ export interface DataGridColumn {
   width?: number | string;
   allowResize?: boolean;
   autoSize?: boolean;
-  render?: (
-    column: DataGridColumn,
-    row: DataGridRow,
-    index: number
-  ) => ReactNode;
+  render?: DataGridColumnRender;
 }
 
 export interface DataGridRow {

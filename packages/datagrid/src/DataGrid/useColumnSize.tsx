@@ -1,8 +1,7 @@
-import React from 'react';
-import { useCallback, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 function widthValue(size: string | number | undefined) {
-  if (size === "*") {
+  if (size === '*') {
     return `flex-grow: 1;`;
   }
   if (typeof size === 'number') {
@@ -15,18 +14,12 @@ function widthValue(size: string | number | undefined) {
 }
 
 function styleContent(id: string, widths: (string | number | undefined)[]) {
-  const styles = `
-                .dg-grid-${id} {
-                  ${widths
-                    .map(
-                      (size, index) =>
-                        `.dg-row .dg-cell:nth-child(${
-                          index + 1
-                        }) { ${widthValue(size)}; }`
-                    )
-                    .join('\n')}
-                }
-              `;
+  const styles = `.dg-grid-${id} {${widths
+    .map(
+      (size, index) =>
+        `.dg-row .dg-cell:nth-child(${index + 1}) { ${widthValue(size)} }`
+    )
+    .join('\n')}}`;
   return styles;
 }
 

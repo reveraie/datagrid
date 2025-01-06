@@ -105,11 +105,7 @@ const gridHeaderCell = (
   onClick?: (column: DataGridColumn) => void
 ) =>
   column.allowResize === false ? (
-    <ColumnHeaderFixed
-      column={column}
-      index={index}
-      onClick={onClick}
-    />
+    <ColumnHeaderFixed column={column} index={index} onClick={onClick} />
   ) : (
     <ColumnHeader
       column={column}
@@ -126,7 +122,7 @@ function gridCell(
 ): ReactNode | undefined {
   return column.render
     ? column.render(column, row, index)
-    : row.values[column.name] as ReactNode;
+    : (row.values[column.name] as ReactNode);
 }
 
 const testLoadRows: LoadPageDataCallbackType = async (
