@@ -22,15 +22,14 @@ function ColumnHeader({
 
   const handleResize = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
+      // console.log("onMouseDown", event.clientX);
       event.stopPropagation();
 
       const startX = event.clientX;
       const startWidth = width || 0;
 
-      // console.log('onMouseDown', event.clientX);
-
       const onMouseMove = (moveEvent: MouseEvent) => {
-        // console.log('onMouseMove', moveEvent.clientX);
+        // console.log("onMouseMove", moveEvent.clientX);
         setIsResizing(true);
         const newWidth = Math.max(startWidth + moveEvent.clientX - startX, 10);
         if (onChangeSize) onChangeSize(index || 0, newWidth);

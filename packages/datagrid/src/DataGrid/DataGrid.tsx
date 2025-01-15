@@ -6,11 +6,13 @@ import GridPage, {
   LoadPageContentPlaceholderCallbackType,
 } from './DataGridPage';
 
-import './DataGrid.css';
+// import './DataGrid.css';
+import './DataGrid-Tailwind.css';
 import ColumnHeader from './ColumnHeader';
 import useColumnSize from './useColumnSize';
 import React from 'react';
 import ColumnHeaderFixed from './ColumnHeaderFixed';
+import { useClick } from './useClick';
 
 const debug_log: (..._args: unknown[]) => void = () => {
   // console.log(...args);
@@ -47,6 +49,23 @@ interface DataGridRenderComponents {
   ) => ReactNode | undefined;
 }
 
+type DataGridEventHandler = (
+  e: React.MouseEvent<HTMLDivElement>,
+  target:
+    | { row: number; col: number; rowId: unknown; colName: unknown }
+    | undefined
+) => void;
+
+type DataGridEvents = {
+  onColumnHeaderClick?: (column: DataGridColumn) => void;
+  onColumnSizeChange?: (
+    index: number,
+    newSize: number | string | undefined
+  ) => void;
+  onCellClick?: DataGridEventHandler;
+  onCellDoubleClick?: DataGridEventHandler;
+};
+
 type DataGridProps = {
   className?: string;
   style?: React.CSSProperties;
@@ -55,23 +74,29 @@ type DataGridProps = {
   totalRowCount?: number;
   pageSize?: number;
   loadRows?: LoadPageDataCallbackType;
+  rowId?: (row: DataGridRow, index: number) => string;
   placeholder?: LoadPageContentPlaceholderCallbackType;
   renderComponents?: DataGridRenderComponents;
-  onColumnHeaderClick?: (column: DataGridColumn) => void;
-  onColumnSizeChange?: (
-    index: number,
-    newSize: number | string | undefined
-  ) => void;
-} & React.HTMLAttributes<HTMLDivElement>;
+} & DataGridEvents &
+  React.HTMLAttributes<HTMLDivElement>;
 
 const EMPTY_ROW: DataGridRow = {
   type: 'row',
   values: {},
 };
 
-const groupRow = (row: DataGridRow, key: number = 0) => {
+const groupRow = (
+  row: DataGridRow,
+  key: number,
+  rowId?: (row: DataGridRow, index: number) => string
+) => {
   return (
-    <div key={key} className="dg-group-row">
+    <div
+      key={key}
+      className="dg-group-row"
+      data-row-index={key}
+      data-row-id={rowId ? rowId(row, key) : defaultRowId(row, key)}
+    >
       {row.values[Object.keys(row.values)[0]] as ReactNode}
     </div>
   );
@@ -85,12 +110,23 @@ const gridRow = (
     row: DataGridRow,
     index: number
   ) => ReactNode | undefined,
-  key: number = 0
+  key: number = 0,
+  rowId?: (row: DataGridRow, index: number) => string
 ) => {
   return (
-    <div key={key} className="dg-row" data-row-id={key}>
+    <div
+      key={key}
+      className="dg-row"
+      data-row-index={key}
+      data-row-id={rowId ? rowId(row, key) : defaultRowId(row, key)}
+    >
       {columns.map((col, index) => (
-        <div key={index} className={`dg-cell dg-cell-${index + 1}`}>
+        <div
+          key={index}
+          data-cell-index={index}
+          data-cell-name={col.name}
+          className={`dg-cell dg-cell-${index + 1}`}
+        >
           {value(col, row, index)}
         </div>
       ))}
@@ -140,17 +176,19 @@ const testLoadRows: LoadPageDataCallbackType = async (
   );
 };
 
+const defaultRowId: (row: DataGridRow, index: number) => string = (
+  row,
+  index
+) => {
+  return `${row.values['row-id'] || row.values['id'] || `row-${index}`}`;
+};
+
 const DataGridDefaultProps = {
   columns: [],
   rows: [],
   totalRowCount: 0,
-  pageSize: 1000,
-  renderComponents: {
-    renderGroupRow: groupRow,
-    renderGridRow: gridRow,
-    renderGridHeaderCell: gridHeaderCell,
-    renderGridCell: gridCell,
-  },
+  pageSize: 10,
+  renderComponents: {},
 };
 
 let count = 0;
@@ -166,24 +204,56 @@ function DataGrid({
   totalRowCount,
   pageSize = 100,
   loadRows,
+  rowId,
   placeholder,
   onColumnHeaderClick,
   onColumnSizeChange,
+  onCellClick,
+  onCellDoubleClick,
   renderComponents = DataGridDefaultProps.renderComponents,
   ...restProps
 }: DataGridProps) {
   debug_log(`reload DataGrid ...`);
 
-  const {
-    renderGridRow = gridRow,
-    renderGroupRow = groupRow,
-    renderGridHeaderCell = gridHeaderCell,
-    renderGridCell = gridCell,
-  } = renderComponents;
+  const defaultRenderGridRow = useCallback(
+    (
+      columns: DataGridColumn[],
+      row: DataGridRow,
+      value: (
+        col: DataGridColumn,
+        row: DataGridRow,
+        index: number
+      ) => ReactNode | undefined,
+      key?: number
+    ) => {
+      return gridRow(columns, row, value, key, rowId);
+    },
+    [rowId]
+  );
+
+  const defaultRenderGroupRow = useCallback(
+    (row: DataGridRow, key: number) => {
+      return groupRow(row, key, rowId);
+    },
+    [rowId]
+  );
+
+  const renderGridRow = renderComponents.renderGridRow || defaultRenderGridRow;
+  const renderGroupRow =
+    renderComponents.renderGroupRow || defaultRenderGroupRow;
+  const renderGridHeaderCell =
+    renderComponents.renderGridHeaderCell || gridHeaderCell;
+  const renderGridCell = renderComponents.renderGridCell || gridCell;
 
   const rowsCount = totalRowCount || rows.length;
 
-  //TODO: Why?
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { onClick, onDoubleClick } = useClick({
+    onClick: (e) => onCellClick?.(e, getRowAndCol(e.target)),
+    onDoubleClick: (e) => onCellDoubleClick?.(e, getRowAndCol(e.target)),
+  });
+
+  //TODO: Why?!?
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const loadMoreRows = useCallback<LoadPageContentCallbackType>(
     async (startIndex, size, abortSignal) => {
@@ -237,8 +307,12 @@ function DataGrid({
     [changeSize, onColumnSizeChange]
   );
 
-  const header = renderGridRow(columns, EMPTY_ROW, (col, _row, index) =>
-    renderGridHeaderCell(col, index, handleChangeSize, onColumnHeaderClick)
+  const header = renderGridRow(
+    columns,
+    EMPTY_ROW,
+    (col, _row, index) =>
+      renderGridHeaderCell(col, index, handleChangeSize, onColumnHeaderClick),
+    -1
   );
 
   return (
@@ -246,6 +320,8 @@ function DataGrid({
       className={`dg-grid dg-grid-${id.current} ${className}`}
       style={style}
       aria-label="Data grid"
+      onClick={onClick}
+      onDoubleClick={onDoubleClick}
       {...restProps}
     >
       {styleElement}
@@ -255,6 +331,23 @@ function DataGrid({
       </div>
     </div>
   );
+}
+
+function getRowAndCol(
+  target: EventTarget | null
+): { row: number; col: number; rowId: unknown; colName: unknown } | undefined {
+  if (!target) return;
+  const e = target as HTMLElement;
+
+  const cell = e.closest('.dg-cell');
+  const row = e.closest('.dg-row') || e.closest('.dg-group-row');
+
+  const cell_index = Number(cell?.getAttribute('data-cell-index'));
+  const cell_name = cell?.getAttribute('data-cell-name');
+  const row_index = Number(row?.getAttribute('data-row-index'));
+  const row_id = row?.getAttribute('data-row-id');
+
+  return { row: row_index, col: cell_index, rowId: row_id, colName: cell_name };
 }
 
 export default DataGrid;

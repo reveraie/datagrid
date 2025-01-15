@@ -1,5 +1,5 @@
 import React, { act } from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { mockIntersectionObserver } from '../../test/mockIntersectionObserver';
@@ -33,6 +33,54 @@ describe('DataGrid Component', () => {
     expect(onClickMock).toHaveBeenCalledTimes(1);
   });
 
+  it('calls the onCellClick handler when cell is clicked', async () => {
+    const onCellClickMock = jest.fn();
+    const onCellDoubleClickMock = jest.fn();
+    const columns = [
+      { name: 'col1', label: 'Column 1' },
+      { name: 'col2', label: 'Column 2' },
+    ];
+    const rows = [
+      { values: { col1: 'Row 1, col 1', col2: 'Row 1, col 2' } },
+      { values: { col1: 'Row 2, col 1', col2: 'Row 2, col 2' } },
+    ];
+    render(
+      <DataGrid
+        columns={columns}
+        rows={rows}
+        onCellClick={onCellClickMock}
+        onCellDoubleClick={onCellDoubleClickMock}
+      />
+    );
+
+    const cell = screen.getByText('Row 2, col 1');
+
+    // Simulate a click
+    fireEvent.click(cell);
+    await waitFor(() => expect(onCellClickMock).toHaveBeenCalledTimes(1));
+    expect(onCellClickMock).toHaveBeenCalledWith(
+      expect.objectContaining({ type: 'click' }), // Event object
+      expect.objectContaining({
+        row: 1,
+        col: 0,
+      })
+    );
+
+    // Simulate a double-click
+    fireEvent.click(cell);
+    fireEvent.dblClick(cell);
+
+    // Wait for any asynchronous actions triggered by the double-click
+    await waitFor(() => expect(onCellDoubleClickMock).toHaveBeenCalledTimes(1));
+    expect(onCellDoubleClickMock).toHaveBeenCalledWith(
+      expect.objectContaining({ type: 'dblclick' }), // Event object
+      expect.objectContaining({
+        row: 1,
+        col: 0,
+      })
+    );
+  });
+
   it('rows should have data-row-index attribute', () => {
     const columns = [{ name: 'Column 1' }, { name: 'Column 2' }];
     const rows = [
@@ -43,13 +91,13 @@ describe('DataGrid Component', () => {
     render(<DataGrid columns={columns} rows={rows} />);
     expect(
       screen.getByText('Row 1 value 1').closest('.dg-row')
-    ).toHaveAttribute('data-row-id', '0');
+    ).toHaveAttribute('data-row-id', 'row-0');
     expect(
       screen.getByText('Row 2 value 2').closest('.dg-row')
-    ).toHaveAttribute('data-row-id', '1');
+    ).toHaveAttribute('data-row-id', 'row-1');
     expect(
       screen.getByText('Row 3 value 3').closest('.dg-row')
-    ).toHaveAttribute('data-row-id', '2');
+    ).toHaveAttribute('data-row-id', 'row-2');
   });
 
   it('loadRows:1', async () => {

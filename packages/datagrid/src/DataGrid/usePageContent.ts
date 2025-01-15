@@ -1,7 +1,7 @@
 import { JSX, ReactNode, useEffect, useRef, useState } from 'react';
 import { LoadPageContentCallbackType } from './DataGridPage';
 
-const debug_log: (...args: unknown[]) => void = (/*...args*/) => {
+const debug_log: (...args: unknown[]) => void = (/*..._args*/) => {
   // console.log(...args);
 };
 

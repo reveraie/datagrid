@@ -1,6 +1,7 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { DataGridColumn } from './DataGridModels';
 import { labelOf } from './utils';
+import React from 'react';
 
 interface ColumnHeaderProps {
   column: DataGridColumn;
