@@ -1,6 +1,6 @@
 {
   "name": "@reveraie/datagrid",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "React Data Grid Component",
   "private": false,
   "type": "module",

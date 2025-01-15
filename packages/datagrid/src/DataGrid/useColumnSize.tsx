@@ -1,4 +1,5 @@
-import React, { useCallback, useRef } from 'react';
+import React from 'react';
+import { useCallback, useRef } from 'react';
 
 function widthValue(size: string | number | undefined) {
   if (size === '*') {

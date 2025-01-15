@@ -1,6 +1,7 @@
-import React, { JSX, ReactNode, useMemo } from 'react';
+import { JSX, ReactNode, useMemo } from 'react';
 import useVisible from './useVisible';
 import { usePageContent } from './usePageContent';
+import React from 'react';
 
 export type LoadPageContentCallbackType = (
   startIndex: number,

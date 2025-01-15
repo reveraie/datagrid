@@ -36,48 +36,26 @@ Example grid structure that use these classes:
 
 */
 
-/* :root {
-  --template-palette-text-primary: rgb(11, 14, 20);
-  --template-palette-background-default: hsl(0, 0%, 99%);
-  --template-palette-background-paper: hsl(220, 35%, 97%);
-  --template-palette-divider: hsla(220, 20%, 80%, 0.4);
-  --template-palette-action-hover: hsla(220, 20%, 88%, 0.2);
-  --template-palette-action-selected: hsla(222, 66%, 54%, 0.33);
-} */
-
 /* the div container of the whole grid */
 .dg-grid {
-  --dg-background: var(--template-palette-background-default, hsl(0, 0%, 99%));
-  --dg-text-primary: var(--template-palette-text-primary, rgb(11, 14, 20));
+  --dg-background: hsla(var(--background), 0 0% 99%);
+  --dg-foreground: hsla(var(--foreground), 11 14 20);
 
-  --dg-header-background: var(
-    --template-palette-background-paper,
-    hsl(220, 35%, 97%)
-  );
+  --dg-header-background: hsla(var(--muted, 220 35% 97%));
+  --dg-header-foreground: hsla(var(--muted-foreground, 220 35% 97%));
   --dg-header-weight: 500;
 
-  --dg-border-color: var(--template-palette-divider, hsla(220, 20%, 80%, 0.4));
+  --dg-border-color: hsla(var(--border, 220 20% 80% 0.4));
 
   --dg-group-row-background: var(--dg-header-background);
 
-  /* --dg-row-background: #ff0000; */
-  --dg-highlight-row-background: var(
-    --template-palette-action-hover,
-    hsla(220, 20%, 88%, 0.2)
-  );
-  --dg-highlight-row-color: var(--dg-text-primary);
-  --dg-highlight-row-selected: var(
-    --template-palette-action-selected,
-    hsla(220, 20%, 88%, 0.3)
-  );
-  --dg-highlight-cell-border-color: var(
-    --template-palette-action-selected,
-    hsla(222, 66%, 54%, 0.33)
-  );
-  /* --dg-highlight-cell-background: #e5e5e5; */
+  --dg-highlight-row-background: hsla(var(--accent, 220 20% 88% 0.2));
+  --dg-highlight-row-foreground: var(--accent-foreground);
+  --dg-highlight-row-selected: hsla(var(--muted-hover, 220 20% 88% 0.3));
+  --dg-highlight-cell-border-color: hsla(var(--ring, 222 66% 54% 0.33));
 
   --dg-cell-hover-border-size: 1px;
-  --dg-grid-radius: 0.5rem;
+  --dg-grid-radius: var(--radius, 0.5rem);
 
   --dg-cell-padding-vert: 0.25rem;
   --dg-cell-padding-horz: 0.375rem;
@@ -90,7 +68,7 @@ Example grid structure that use these classes:
 
   border: 1px solid var(--dg-border-color);
   border-radius: var(--dg-grid-radius);
-  color: var(--dg-text-primary);
+  color: var(--dg-foreground);
   background-color: var(--dg-background);
 
   font-size: var(--dg-font-size);
@@ -145,6 +123,7 @@ Example grid structure that use these classes:
 
 .dg-header .dg-row {
   background-color: var(--dg-header-background);
+  color: var(--dg-header-foreground);
 }
 
 .dg-group-row {
@@ -176,6 +155,7 @@ Example grid structure that use these classes:
 
 .dg-body .dg-row:hover:not(.dg-header *) {
   background-color: var(--dg-highlight-row-background);
+  color: var(--dg-highlight-row-foreground);
 }
 
 .dg-cell:hover:not(.dg-header *) {
@@ -184,17 +164,4 @@ Example grid structure that use these classes:
   background-color: var(--dg-highlight-cell-color);
   padding: calc(var(--dg-cell-padding-vert) - var(--dg-cell-hover-border-size))
     calc(var(--dg-cell-padding-horz) - var(--dg-cell-hover-border-size));
-}
-
-@media (prefers-color-scheme: dark) {
-  .dg-grid {
-    --dg-background: hsl(220, 15%, 15%);
-    --dg-text-primary: rgb(245, 245, 245);
-    --dg-header-background: hsl(220, 20%, 20%);
-    --dg-border-color: hsla(220, 20%, 40%, 0.6);
-    --dg-group-row-background: var(--dg-header-background);
-    --dg-highlight-row-background: hsla(220, 20%, 30%, 0.2);
-    --dg-highlight-row-selected: hsla(222, 66%, 44%, 0.33);
-    --dg-highlight-cell-border-color: hsla(222, 66%, 44%, 0.33);
-  }
 }
