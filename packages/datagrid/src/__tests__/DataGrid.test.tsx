@@ -108,14 +108,16 @@ describe('DataGrid Component', () => {
 
     const loadRows: LoadPageDataCallbackType = (startIndex, size) => {
       return new Promise((resolve) => {
-        resolve(
-          Array.from({ length: size }, (_, index) => index + startIndex).map(
-            (_, index) => ({
-              type: 'row',
-              values: { col1: `Row ${startIndex + index}` },
-            })
-          )
-        );
+        resolve({
+          rows: Array.from(
+            { length: size },
+            (_, index) => index + startIndex
+          ).map((_, index) => ({
+            type: 'row',
+            values: { col1: `Row ${startIndex + index}` },
+          })),
+          totalCount: undefined,
+        });
       });
     };
 

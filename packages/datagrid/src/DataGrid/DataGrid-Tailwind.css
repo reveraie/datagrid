@@ -76,7 +76,7 @@ Example grid structure that use these classes:
 
 .dg-comfort {
   --dg-cell-padding-vert: 0.5rem;
-  --dg-cell-padding-horz: 0.375rem;
+  --dg-cell-padding-horz: 0.5rem;
   --dg-cell-margin: 0px;
   --dg-font-size: 1rem;
 }
@@ -92,6 +92,7 @@ Example grid structure that use these classes:
 /* the container of each row, including the header */
 .dg-row,
 .dg-group-row {
+  cursor: default;
   display: flex;
   flex-direction: row;
   min-width: fit-content;
