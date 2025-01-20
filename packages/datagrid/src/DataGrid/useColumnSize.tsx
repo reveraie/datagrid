@@ -6,10 +6,10 @@ function widthValue(size: string | number | undefined) {
     return `flex-grow: 1;`;
   }
   if (typeof size === 'number') {
-    return `width: ${size}px;`;
+    return `width: ${(size / 16).toFixed(2)}em;`;
   }
   if (typeof size === 'undefined') {
-    return 'width: 100px;';
+    return 'width: 6.25em;'; // 100 pixels
   }
   return size;
 }

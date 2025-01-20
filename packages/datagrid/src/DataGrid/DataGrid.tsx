@@ -22,7 +22,7 @@ export type LoadPageDataCallbackType = (
   startIndex: number,
   size: number,
   abortSignal: AbortSignal
-) => Promise<DataGridRow[]>;
+) => Promise<{ rows: DataGridRow[]; totalCount?: number }>;
 
 interface DataGridRenderComponents {
   renderGroupRow?: (row: DataGridRow, key: number) => ReactNode | undefined;
@@ -168,12 +168,15 @@ const testLoadRows: LoadPageDataCallbackType = async (
 ) => {
   await new Promise((resolve) => setTimeout(resolve, 500));
   if (abortSignal.aborted) throw new Error('aborted');
-  return Array.from({ length: size }, (_, index) => index + startIndex).map(
-    (_, index) => ({
-      type: 'row',
-      values: { col0: `Row ${startIndex + index}` },
-    })
-  );
+  return {
+    rows: Array.from({ length: size }, (_, index) => index + startIndex).map(
+      (_, index) => ({
+        type: 'row',
+        values: { col0: `Row ${startIndex + index}` },
+      })
+    ),
+    totalCount: undefined,
+  };
 };
 
 const defaultRowId: (row: DataGridRow, index: number) => string = (
@@ -196,23 +199,26 @@ function newId() {
   return `gid-${count++}`;
 }
 
-function DataGrid({
-  className,
-  style,
-  columns = [],
-  rows = [],
-  totalRowCount,
-  pageSize = 100,
-  loadRows,
-  rowId,
-  placeholder,
-  onColumnHeaderClick,
-  onColumnSizeChange,
-  onCellClick,
-  onCellDoubleClick,
-  renderComponents = DataGridDefaultProps.renderComponents,
-  ...restProps
-}: DataGridProps) {
+const DataGrid = React.forwardRef<HTMLDivElement, DataGridProps>(function (
+  {
+    className,
+    style,
+    columns = [],
+    rows = [],
+    totalRowCount,
+    pageSize = 100,
+    loadRows,
+    rowId,
+    placeholder,
+    onColumnHeaderClick,
+    onColumnSizeChange,
+    onCellClick,
+    onCellDoubleClick,
+    renderComponents = DataGridDefaultProps.renderComponents,
+    ...restProps
+  }: DataGridProps,
+  ref
+) {
   debug_log(`reload DataGrid ...`);
 
   const defaultRenderGridRow = useCallback(
@@ -245,23 +251,18 @@ function DataGrid({
     renderComponents.renderGridHeaderCell || gridHeaderCell;
   const renderGridCell = renderComponents.renderGridCell || gridCell;
 
-  const rowsCount = totalRowCount || rows.length;
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { onClick, onDoubleClick } = useClick({
     onClick: (e) => onCellClick?.(e, getRowAndCol(e.target)),
     onDoubleClick: (e) => onCellDoubleClick?.(e, getRowAndCol(e.target)),
   });
 
-  //TODO: Why?!?
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const loadMoreRows = useCallback<LoadPageContentCallbackType>(
     async (startIndex, size, abortSignal) => {
       const moreRows = loadRows
         ? await loadRows(startIndex, size, abortSignal)
         : await testLoadRows(startIndex, size, abortSignal);
       if (abortSignal.aborted) throw new Error('aborted');
-      return moreRows.map((row, index) => {
+      return moreRows.rows.map((row, index) => {
         return row.type === 'group'
           ? renderGroupRow(row, startIndex + index)
           : renderGridRow(columns, row, renderGridCell, startIndex + index);
@@ -277,6 +278,7 @@ function DataGrid({
   });
 
   // the rest of the rows are loading pages
+  const rowsCount = totalRowCount || rows.length;
   let i = body.length;
   while (i < rowsCount) {
     const size = Math.min(pageSize, rowsCount - i);
@@ -317,6 +319,7 @@ function DataGrid({
 
   return (
     <div
+      ref={ref}
       className={`dg-grid dg-grid-${id.current} ${className}`}
       style={style}
       aria-label="Data grid"
@@ -331,7 +334,7 @@ function DataGrid({
       </div>
     </div>
   );
-}
+});
 
 function getRowAndCol(
   target: EventTarget | null

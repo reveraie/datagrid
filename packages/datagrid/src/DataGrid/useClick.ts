@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 
 interface UseClickOptions {
-  onClick: (event: React.MouseEvent<HTMLDivElement>) => void;
-  onDoubleClick: (event: React.MouseEvent<HTMLDivElement>) => void;
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
+  onDoubleClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
   delay?: number; // Delay to distinguish single and double clicks (default: 250ms)
 }
 
@@ -19,7 +19,7 @@ export const useClick = ({
       clickTimeoutRef.current = null;
     } else {
       clickTimeoutRef.current = setTimeout(() => {
-        onClick(event); // Trigger single click handler
+        onClick?.(event); // Trigger single click handler
         clickTimeoutRef.current = null;
       }, delay);
     }
@@ -30,7 +30,7 @@ export const useClick = ({
       clearTimeout(clickTimeoutRef.current);
       clickTimeoutRef.current = null;
     }
-    onDoubleClick(event); // Trigger double click handler
+    onDoubleClick?.(event); // Trigger double click handler
   };
 
   return {
