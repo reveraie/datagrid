@@ -157,7 +157,7 @@ function gridCell(
   index: number
 ): ReactNode | undefined {
   return column.render
-    ? column.render(column, row, index)
+    ? column.render(row.values[column.name], column, row, index)
     : (row.values[column.name] as ReactNode);
 }
 

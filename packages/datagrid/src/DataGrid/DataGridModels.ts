@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 export type DataGridColumnRender = (
+  value: unknown,
   column: DataGridColumn,
   row: DataGridRow,
   index: number
