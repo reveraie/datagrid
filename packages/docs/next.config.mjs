@@ -1,5 +1,11 @@
+import withMDX from "@next/mdx";
+
+const mdxConfig = withMDX({
+  extension: /\.mdx?$/,
+});
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig = mdxConfig({
   output: "export",
 
   // Optional: Change links `/me` -> `/me/` and emit `/me.html` -> `/me/index.html`
@@ -9,7 +15,7 @@ const nextConfig = {
   // skipTrailingSlashRedirect: true,
 
   // Optional: Change the output directory `out` -> `dist`
-  distDir: 'dist',
-};
+  distDir: "dist",
+});
 
 export default nextConfig;

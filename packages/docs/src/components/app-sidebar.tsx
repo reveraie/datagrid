@@ -1,5 +1,6 @@
 import * as React from "react"
 import { GalleryVerticalEnd } from "lucide-react"
+import path from "path";
 
 import {
   Sidebar,
@@ -14,9 +15,14 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
 } from "@/src/components/ui/sidebar"
-import { title } from "process"
-import { url } from "inspector"
 import Link from "next/link"
+
+export interface IContentItem {
+  title: string;
+  url: string;
+  isActive?: boolean;
+  items?: IContentItem[];
+}
 
 // This is sample data.
 const data = {
@@ -163,9 +169,10 @@ const data = {
   ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ menu }: { menu: IContentItem[]}) {
+  console.log(`menu`, menu);
   return (
-    <Sidebar {...props}>
+    <Sidebar>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -186,7 +193,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            {data.navMain.map((item) => (
+            {(menu || []).map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
                   <a href={item.url} className="font-medium">
