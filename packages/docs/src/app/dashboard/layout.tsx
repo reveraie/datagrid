@@ -1,4 +1,4 @@
-import { AppSidebar } from "@/src/components/app-sidebar";
+import { AppSidebar, IContentItem } from "@/src/components/app-sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,25 +13,22 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/src/components/ui/sidebar";
-import { getDocsTree } from "@/src/lib/readDocs";
+import { getContents } from "@/src/lib/readDocs";
 import path from "path";
-
-export async function getStaticProps() {
-  console.log("getStaticProps");
-  const docsPath = path.join(process.cwd(), "../../../content");
-  const menu = getDocsTree(docsPath);
-  return { props: { menu } };
-}
-
 
 export default function Page({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  
+  const docsPath = path.join(process.cwd(), "src/app/content");
+  console.log(docsPath);
+  const menu = getContents(docsPath);
+
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar menu={menu} />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 border-b">
           <div className="flex items-center gap-2 px-3">
