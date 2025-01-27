@@ -205,21 +205,21 @@ export default function BasicExample() {
       ) as HTMLDivElement;
       if (!row) return;
       const rowIndex = Number(row.getAttribute("data-row-index"));
-      // rows[rowIndex].values.favorite = !rows[rowIndex].values.favorite;
       setRows((prev) => {
         const updatedRows = [...prev];
+        const row = updatedRows[rowIndex];
         updatedRows[rowIndex] = {
-          ...rows[rowIndex],
+          ...row,
           values: {
-            ...rows[rowIndex].values,
-            favorite: !rows[rowIndex].values.favorite,
+            ...row.values,
+            favorite: !row.values.favorite,
           },
         };
         return updatedRows;
       });
     },
-    []
+    [rows]
   );
 
-  return <DataGrid className="max-h-64" columns={columns} rows={rows} />;
+  return <DataGrid gridId="1" className="max-h-64" columns={columns} rows={rows} />;
 }

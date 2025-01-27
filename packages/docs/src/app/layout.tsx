@@ -19,6 +19,9 @@ export default function Page({ children }: { children: React.ReactNode }) {
 
   return (
     <html lang="en">
+      <head>
+        <script src="https://unpkg.com/react-scan/dist/auto.global.js" async />
+      </head>
       <body className={`antialiased`}>
         <SidebarProvider>
           <AppSidebar menu={menu} />
