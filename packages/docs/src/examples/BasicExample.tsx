@@ -221,5 +221,7 @@ export default function BasicExample() {
     [rows]
   );
 
-  return <DataGrid gridId="1" className="max-h-64" columns={columns} rows={rows} />;
+  return (
+    <DataGrid gridId="1" className="max-h-64" columns={columns} rows={rows} />
+  );
 }

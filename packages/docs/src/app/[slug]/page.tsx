@@ -1,8 +1,6 @@
 import { compile, run } from "@mdx-js/mdx";
-import path from "path";
 import fs from "fs";
 import * as runtime from "react/jsx-runtime";
-import matter from "gray-matter";
 import { DOCS_PATH, getContents } from "@/src/lib/readDocs";
 import { SidebarTrigger } from "@/src/components/ui/sidebar";
 import {
@@ -19,6 +17,7 @@ import BasicExample from "@/src/examples/BasicExample";
 import CodeBlock from "@/src/components/code-block";
 import Example from "@/src/components/example";
 import TenThousandRowsExample from "@/src/examples/TenThousandRowsExample";
+import { PageProps } from "@/.next/types/app/page";
 
 //https://github.com/hashicorp/next-mdx-remote
 
@@ -43,7 +42,7 @@ export async function generateStaticParams() {
     }));
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: PageProps) {
   const { slug } = await params;
 
   const contents = getContents();

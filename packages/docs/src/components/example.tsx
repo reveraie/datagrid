@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/src/components/ui/tabs";
 import CodeBlock from "./code-block";
-import { Children } from "react";
+import { Children, JSX } from "react";
 import CopyButton from "./copy-button";
 
 interface ExampleProps {

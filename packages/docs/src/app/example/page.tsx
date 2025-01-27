@@ -1,8 +1,5 @@
-import { TenThousandRowsExample } from "@/src/examples/TenThousandRowsExample";
+import TenThousandRowsExample from "@/src/examples/TenThousandRowsExample";
 
 export default function Page() {
-    return (
-      <TenThousandRowsExample />
-    );
-  }
-  
+  return <TenThousandRowsExample />;
+}
