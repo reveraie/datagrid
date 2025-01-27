@@ -86,19 +86,17 @@ export default async function Page({ params }: { params: { slug: string } }) {
                   return (
                     <>
                       <BreadcrumbItem
-                        key={`${index}-item`}
                         className="hidden md:block"
                       >
                         <BreadcrumbLink href="#">{item}</BreadcrumbLink>
                       </BreadcrumbItem>
                       <BreadcrumbSeparator
-                        key={`${index}-separator`}
                         className="hidden md:block"
                       />
                     </>
                   );
                 })}
-              <BreadcrumbItem>
+              <BreadcrumbItem key={"end"}>
                 <BreadcrumbPage>{artcile.title}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
