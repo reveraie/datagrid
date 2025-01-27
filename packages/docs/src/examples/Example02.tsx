@@ -21,7 +21,7 @@ export default function Example02() {
 
   return (
     <div>
-      <DataGrid className="max-h-64" columns={columns} rows={rows} />
+      <DataGrid gridId="e3" className="max-h-[650px]" columns={columns} rows={rows} />
     </div>
   );
 }

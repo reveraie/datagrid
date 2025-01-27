@@ -171,8 +171,6 @@ const data = {
 };
 
 export function AppSidebar({ menu }: { menu: IContentItem[] }) {
-  console.log(`menu`, menu);
-
   const category: IContentItem[] = [];
   menu.forEach((item) => {
     if (

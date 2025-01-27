@@ -1,15 +1,8 @@
----
-title: "Basic Example"
-slug: "BasicExample"
-category: "Examples"
-path: ["Examples"]
----
-# Basic Example
+"use client";
 
-Lorem ipsum ... 
+import React, { useCallback } from "react";
 
-<Example demo={<BasicExample />}>
-{`import {
+import {
   EnvelopeIcon,
   EnvelopeOpenIcon,
   StarIcon,
@@ -19,10 +12,8 @@ import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
 
 import { DataGrid, DataGridColumn, DataGridRow } from "@reveraie/datagrid";
 import "@reveraie/datagrid/dist/index.css";
-import React, { useCallback, useState } from "react";
 
-export default function BasicExample() {
-  // DataGridColumn[]
+export default function TenThousandRowsExample() {
   const columns: DataGridColumn[] = [
     {
       name: "status",
@@ -51,7 +42,7 @@ export default function BasicExample() {
       allowResize: false,
       render: (value) => {
         return (
-          <div onClick={handleStartClick}>
+          <div>
             {value ? (
               <StarIconSolid className="w-full h-full" />
             ) : (
@@ -84,7 +75,7 @@ export default function BasicExample() {
       width: 100,
     },
   ];
-  const [rows, setRows] = useState<DataGridRow[]>([
+  const rows = [
     {
       values: {
         status: true,
@@ -205,32 +196,53 @@ export default function BasicExample() {
         date: "2023-01-12",
       },
     },
-  ]);
+  ];
 
-  const handleStartClick = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      const row = (e.target as HTMLDivElement).closest(
-        ".dg-row"
-      ) as HTMLDivElement;
-      if (!row) return;
-      const rowIndex = Number(row.getAttribute("data-row-index"));
-      setRows((prev) => {
-        const updatedRows = [...prev];
-        const row = updatedRows[rowIndex];
-        updatedRows[rowIndex] = {
-          ...row,
-          values: {
-            ...row.values,
-            favorite: !row.values.favorite,
-          },
-        };
-        return updatedRows;
-      });
-    },
-    [rows]
+  const loadRows = useCallback(async (startIndex: number, size: number) => {
+    // simulate network delay
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    // generate some data on the fly
+    const result: DataGridRow[] = Array.from(
+      { length: size },
+      (_, index) => index + startIndex
+    ).map((_, index) => ({
+      type: "row",
+      values: {
+        status: false,
+        from: `Row: ${startIndex + index}`,
+        favorite: true,
+        subject: `Feature request ${startIndex + index}`,
+        attachments: 2,
+        date: "2023-01-12",
+      },
+    }));
+    return { rows: result };
+  }, []);
+
+  const loadingPlaceholder = useCallback((startIndex: number, size: number) => {
+    return Array.from({ length: size }, (_, index) => index + startIndex).map(
+      (_, index) => (
+        <div
+          key={startIndex + index}
+          className="dg-row dg-row-loading w-full"
+        >
+          <div className="rounded-md bg-primary/10 w-full pl-2">
+            &nbsp;
+          </div>
+        </div>
+      )
+    );
+  }, []);
+
+  return (
+    <DataGrid
+      gridId="tenk"
+      className="max-h-[650px]"
+      columns={columns}
+      rows={rows} // the first "static" rows
+      totalRowCount={10000} // provide the total rows count
+      loadRows={loadRows} // load rows on demand
+      placeholder={loadingPlaceholder} // what component to display as a placeholder
+    />
   );
-
-  return <DataGrid gridId="1" className="max-h-64" columns={columns} rows={rows} />;
 }
-`}
-</Example>

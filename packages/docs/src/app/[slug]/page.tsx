@@ -16,6 +16,9 @@ import {
 import Example01 from "@/src/examples/Example01";
 import Example02 from "@/src/examples/Example02";
 import BasicExample from "@/src/examples/BasicExample";
+import CodeBlock from "@/src/components/code-block";
+import Example from "@/src/components/example";
+import TenThousandRowsExample from "@/src/examples/TenThousandRowsExample";
 
 //https://github.com/hashicorp/next-mdx-remote
 
@@ -41,7 +44,7 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+  const { slug } = await params;
 
   const contents = getContents();
   const artcile = contents.find((article) => article.slug === slug);
@@ -106,10 +109,13 @@ export default async function Page({ params }: { params: { slug: string } }) {
       <div className="prose">
         <MDXContent
           components={{
+            Example,
             ClientComponent,
             Example01,
             Example02,
-            BasicExample
+            BasicExample,
+            TenThousandRowsExample,
+            CodeBlock,
           }}
         />
       </div>
