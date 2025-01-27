@@ -1,11 +1,12 @@
-import * as React from "react"
-import { GalleryVerticalEnd } from "lucide-react"
+import * as React from "react";
+import { GalleryVerticalEnd } from "lucide-react";
 import path from "path";
 
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -14,13 +15,13 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
-} from "@/src/components/ui/sidebar"
-import Link from "next/link"
+} from "@/src/components/ui/sidebar";
+import Link from "next/link";
 
 export interface IContentItem {
   title: string;
+  category: string;
   url: string;
-  isActive?: boolean;
   items?: IContentItem[];
 }
 
@@ -167,10 +168,28 @@ const data = {
       ],
     },
   ],
-}
+};
 
-export function AppSidebar({ menu }: { menu: IContentItem[]}) {
+export function AppSidebar({ menu }: { menu: IContentItem[] }) {
   console.log(`menu`, menu);
+
+  const category: IContentItem[] = [];
+  menu.forEach((item) => {
+    if (
+      category.length === 0 ||
+      category[category.length - 1].title !== item.category
+    ) {
+      category.push({
+        title: item.category,
+        category: "",
+        url: "#",
+        items: [],
+      });
+    }
+
+    category[category.length - 1].items?.push(item);
+  });
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -191,32 +210,38 @@ export function AppSidebar({ menu }: { menu: IContentItem[]}) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarMenu>
-            {(menu || []).map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
-                  <a href={item.url} className="font-medium">
-                    {item.title}
-                  </a>
-                </SidebarMenuButton>
-                {item.items?.length ? (
-                  <SidebarMenuSub>
-                    {item.items.map((item) => (
-                      <SidebarMenuSubItem key={item.title}>
-                        <SidebarMenuSubButton asChild isActive={item.isActive}>
-                          <Link href={item.url}>{item.title}</Link>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    ))}
-                  </SidebarMenuSub>
-                ) : null}
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroup>
+        {category.map((catrgoryItem, index) => (
+          <SidebarGroup key={index}>
+            <SidebarGroupLabel>{catrgoryItem.title}</SidebarGroupLabel>
+            <SidebarMenu>
+              {(catrgoryItem.items || []).map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <a href={item.url} className="font-medium">
+                      {item.title}
+                    </a>
+                  </SidebarMenuButton>
+                  {item.items?.length ? (
+                    <SidebarMenuSub>
+                      {item.items.map((item) => (
+                        <SidebarMenuSubItem key={item.title}>
+                          <SidebarMenuSubButton
+                            asChild
+                            // isActive={item.isActive}
+                          >
+                            <Link href={item.url}>{item.title}</Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
+                  ) : null}
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroup>
+        ))}
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
