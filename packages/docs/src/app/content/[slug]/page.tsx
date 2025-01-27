@@ -1,43 +1,46 @@
-import { compile, run } from '@mdx-js/mdx'
-import path from 'path';
-import fs from 'fs';
-import * as runtime from 'react/jsx-runtime'
+import { compile, run } from "@mdx-js/mdx";
+import path from "path";
+import fs from "fs";
+import * as runtime from "react/jsx-runtime";
+import { DOCS_PATH } from "@/src/lib/readDocs";
 
 //https://github.com/hashicorp/next-mdx-remote
 
 function ClientComponent() {
-    return (<div>Client Component</div>)
-} 
+  return <div>Client Component</div>;
+}
 
 // MDX can be retrieved from anywhere, such as a file or a database.
 const mdxSource = `# Hello, world!
 <ClientComponent />
-`
+`;
 
 export async function generateStaticParams() {
-  const docsPath = path.join(process.cwd(), 'src/app/content');
-  const files = fs.readdirSync(docsPath);
+  const files = fs.readdirSync(DOCS_PATH);
 
   // Generate parameters for all MDX files
   return files
-    .filter((file) => file.endsWith('.mdx'))
+    .filter((file) => file.endsWith(".mdx"))
     .map((file) => ({
-      slug: file.replace('.mdx', ''),
+      slug: file.replace(".mdx", ""),
+      fileName: file,
     }));
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export default async function Page({ params }: { params: { slug: string, fileName: string } }) {
+  const { slug, fileName } = params;
+
+  console.log(fileName);
 
   // Compile the MDX source code to a function body
 
   console.log(slug);
-  const filePath = path.join(process.cwd(), 'src/app/content', `${slug}.mdx`);
-  const fileContent = fs.readFileSync(filePath, 'utf8');
+  const filePath = path.join(DOCS_PATH, `${slug}.mdx`);
+  const fileContent = fs.readFileSync(filePath, "utf8");
 
   const code = String(
-    await compile(fileContent, { outputFormat: 'function-body' })
-  )
+    await compile(fileContent, { outputFormat: "function-body" })
+  );
   // You can then either run the code on the server, generating a server
   // component, or you can pass the string to a client component for
   // final rendering.
@@ -46,8 +49,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const { default: MDXContent } = await run(code, {
     ...runtime,
     baseUrl: import.meta.url,
-  })
+  });
 
   // Render the MDX content, supplying the ClientComponent as a component
-  return <MDXContent components={{ ClientComponent }} />
+  return (
+    <div className="prose">
+      <MDXContent components={{ ClientComponent }} />
+    </div>
+  );
 }

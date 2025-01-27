@@ -2,6 +2,8 @@ import fs from "fs";
 import path from "path";
 import { title } from "process";
 
+export const DOCS_PATH = path.join(process.cwd(), "src/docs");
+
 export function getDocsTree(baseDir: string) {
   const readDir = (dir: string): any => {
     const items = fs.readdirSync(dir, { withFileTypes: true });
@@ -30,12 +32,12 @@ export function getDocsTree(baseDir: string) {
   return readDir(baseDir);
 }
 
-export function getContents(baseDir: string) {
-  const files = getDocsTree(baseDir);
+export function getContents() {
+  const files = getDocsTree(DOCS_PATH);
   return files.map((file) => {
     return {
       title: file.name,
-      url: `content/${file.name}`,
+      url: `/content/${file.name}`,
     }
   });
 }
