@@ -4,6 +4,8 @@ import { getContents } from "@/lib/readDocs";
 import Example01 from "@/examples/example-01";
 import BasicExample from "@/examples/BasicExample";
 
+import rehypePrettyCode from "rehype-pretty-code";
+
 //https://github.com/hashicorp/next-mdx-remote
 
 function ClientComponent() {
@@ -41,7 +43,12 @@ export default async function Page({
   // Compile the MDX source code to a function body
 
   const code = String(
-    await compile(artcile.content, { outputFormat: "function-body" })
+    await compile(artcile.content, {
+      outputFormat: "function-body",
+      rehypePlugins: [
+        [rehypePrettyCode, { theme: "github-dark", keepBackground: true }],
+      ],
+    })
   );
   // You can then either run the code on the server, generating a server
   // component, or you can pass the string to a client component for
