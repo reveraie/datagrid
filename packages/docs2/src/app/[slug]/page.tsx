@@ -2,6 +2,7 @@ import { compile, run } from "@mdx-js/mdx";
 import * as runtime from "react/jsx-runtime";
 import { getContents } from "@/lib/readDocs";
 import Example01 from "@/examples/example-01";
+import BasicExample from "@/examples/BasicExample";
 
 //https://github.com/hashicorp/next-mdx-remote
 
@@ -60,6 +61,7 @@ export default async function Page({
           components={{
             Example01,
             ClientComponent,
+            BasicExample,
           }}
         />
       </div>
