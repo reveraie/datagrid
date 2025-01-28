@@ -39,7 +39,7 @@ export default function RootLayout({
         <SidebarProvider>
           <AppSidebar menu={menu} />
           <SidebarInset>
-            <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
+            {children}
           </SidebarInset>
         </SidebarProvider>
       </body>

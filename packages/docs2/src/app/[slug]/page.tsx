@@ -7,6 +7,15 @@ import BasicExample from "@/examples/BasicExample";
 import rehypePrettyCode from "rehype-pretty-code";
 import Tabs from "@/components/Tabs";
 import Tab from "@/components/Tab";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Separator } from "@radix-ui/react-separator";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 //https://github.com/hashicorp/next-mdx-remote
 
@@ -65,16 +74,35 @@ export default async function Page({
   // Render the MDX content, supplying the ClientComponent as a component
   return (
     <>
-      <div className="prose">
-        <MDXContent
-          components={{
-            Tabs,
-            Tab,
-            Example01,
-            ClientComponent,
-            BasicExample,
-          }}
-        />
+      <header className="flex h-16 shrink-0 items-center gap-2 border-b">
+        <div className="flex items-center gap-2 px-3">
+          <SidebarTrigger />
+          <Separator orientation="vertical" className="mr-2 h-4" />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                {artcile.category}
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{artcile.title}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+      </header>
+      <div className="flex flex-1 flex-col gap-4 p-4">
+        <div className="prose">
+          <MDXContent
+            components={{
+              Tabs,
+              Tab,
+              Example01,
+              ClientComponent,
+              BasicExample,
+            }}
+          />
+        </div>
       </div>
     </>
   );
