@@ -218,7 +218,7 @@ export default function BasicExample() {
         return updatedRows;
       });
     },
-    [rows]
+    []
   );
 
   return (

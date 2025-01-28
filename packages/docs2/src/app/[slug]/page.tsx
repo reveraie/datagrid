@@ -5,6 +5,8 @@ import Example01 from "@/examples/example-01";
 import BasicExample from "@/examples/BasicExample";
 
 import rehypePrettyCode from "rehype-pretty-code";
+import Tabs from "@/components/Tabs";
+import Tab from "@/components/Tab";
 
 //https://github.com/hashicorp/next-mdx-remote
 
@@ -66,6 +68,8 @@ export default async function Page({
       <div className="prose">
         <MDXContent
           components={{
+            Tabs,
+            Tab,
             Example01,
             ClientComponent,
             BasicExample,
