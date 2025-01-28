@@ -17,8 +17,8 @@ const labels = ["Preview", "Code"];
 
 const Tabs: React.FC<TabsProps> = ({ children }) => {
   return (
-    <TabsShad defaultValue="Preview" className="w-[400px]">
-      <TabsList className="grid w-full grid-cols-2">
+    <TabsShad defaultValue="Preview" className="w-full h-full">
+      <TabsList>
         {React.Children.map(children, (child, index) => {
           if (React.isValidElement(child)) {
             const label = labels[index];
@@ -29,8 +29,12 @@ const Tabs: React.FC<TabsProps> = ({ children }) => {
       </TabsList>
       {React.Children.map(children, (child, index) => {
         if (React.isValidElement(child)) {
-            const label = labels[index];
-          return <TabsContent value={label}>{child}</TabsContent>;
+          const label = labels[index];
+          return (
+            <TabsContent value={label}>
+              <div className="p-8 rounded-xl border">{child}</div>
+            </TabsContent>
+          );
         }
         return null;
       })}
