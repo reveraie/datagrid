@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 import {
   EnvelopeIcon,
   EnvelopeOpenIcon,
@@ -10,10 +12,8 @@ import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
 
 import { DataGrid, DataGridColumn, DataGridRow } from "@reveraie/datagrid";
 import "@reveraie/datagrid/dist/index.css";
-import React, { useCallback, useState } from "react";
 
-export default function BasicExample() {
-  // DataGridColumn[]
+export default function GroupsExample() {
   const columns: DataGridColumn[] = [
     {
       name: "status",
@@ -42,7 +42,7 @@ export default function BasicExample() {
       allowResize: false,
       render: (value) => {
         return (
-          <div onClick={handleStartClick}>
+          <div>
             {value ? (
               <StarIconSolid className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             ) : (
@@ -75,7 +75,13 @@ export default function BasicExample() {
       width: 100,
     },
   ];
-  const [rows, setRows] = useState<DataGridRow[]>([
+  const rows: DataGridRow[] = [
+    {
+      type: "group",
+      values: {
+        Since: "Today",
+      },
+    },
     {
       values: {
         status: true,
@@ -114,6 +120,12 @@ export default function BasicExample() {
         subject: "Bug report",
         attachments: 1,
         date: "2023-01-04",
+      },
+    },
+    {
+      type: "group",
+      values: {
+        Since: "Yesterday",
       },
     },
     {
@@ -196,32 +208,6 @@ export default function BasicExample() {
         date: "2023-01-12",
       },
     },
-  ]);
-
-  const handleStartClick = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      const row = (e.target as HTMLDivElement).closest(
-        ".dg-row"
-      ) as HTMLDivElement;
-      if (!row) return;
-      const rowIndex = Number(row.getAttribute("data-row-index"));
-      setRows((prev) => {
-        const updatedRows = [...prev];
-        const row = updatedRows[rowIndex];
-        updatedRows[rowIndex] = {
-          ...row,
-          values: {
-            ...row.values,
-            favorite: !row.values.favorite,
-          },
-        };
-        return updatedRows;
-      });
-    },
-    []
-  );
-
-  return (
-    <DataGrid gridId="1" className="max-h-64" columns={columns} rows={rows} />
-  );
+  ];
+  return <DataGrid gridId="2" className="max-h-64" columns={columns} rows={rows} />;
 }

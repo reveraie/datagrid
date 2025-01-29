@@ -17,6 +17,10 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { ModeToggle } from "@/components/mode-toggle";
+import ComfortExample from "@/examples/ComfortExample";
+import ComprehensiveExample from "@/examples/ComprehensiveExample";
+import GroupsExample from "@/examples/GroupsExample";
+import TenThousandRowsExample from "@/examples/TenThousandRowsExample";
 
 //https://github.com/hashicorp/next-mdx-remote
 
@@ -94,8 +98,8 @@ export default async function Page({
           <ModeToggle />
         </div>
       </header>
-      <div className="flex flex-1 flex-col gap-4 p-4">
-        <div className="prose prose-lg dark:prose-invert">
+      <div className="flex flex-1 flex-col gap-4 p-6 items-center">
+        <div className="prose prose-lg dark:prose-invert w-full">
           <MDXContent
             components={{
               Tabs,
@@ -103,6 +107,10 @@ export default async function Page({
               Example01,
               ClientComponent,
               BasicExample,
+              ComfortExample,
+              ComprehensiveExample,
+              GroupsExample,
+              TenThousandRowsExample,
             }}
           />
         </div>
