@@ -38,8 +38,8 @@ Example grid structure that use these classes:
 
 /* the div container of the whole grid */
 .dg-grid {
-  --dg-background: hsla(var(--background), 0 0% 99%);
-  --dg-foreground: hsla(var(--foreground), 11 14 20);
+  --dg-background: hsla(var(--background, 0 0% 100%));
+  --dg-foreground: hsla(var(--foreground, 222.2 47.4% 11.2%));
 
   --dg-header-background: hsla(var(--muted, 220 35% 97%));
   --dg-header-foreground: hsla(var(--muted-foreground, 220 35% 97%));

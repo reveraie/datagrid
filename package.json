@@ -4,11 +4,17 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build:datagrid && npm run build:demo",
+    "build": "npm run build:datagrid && npm run build:docs",
     "build:datagrid": "npm --workspace packages/datagrid run build",
-    "build:demo": "npm --workspace packages/demo run build",
-    "start": "npm --workspace packages/demo run dev",
+    "build:docs": "npm --workspace packages/docs run build",
+    "start": "npm --workspace packages/docs run dev",
     "test": "npm --workspace packages/datagrid run test",
-    "publish:demo": "npm --workspace packages/demo run deploy"
+    "lint:datagrid": "npm --workspace packages/datagrid run lint",
+    "lint:docs": "npm --workspace packages/docs run lint",
+    "lint": "npm run lint:datagrid && npm run lint:docs",
+    "format:datagrid": "npm --workspace packages/datagrid run format",
+    "format:docs": "npm --workspace packages/docs run format",
+    "format": "npm run format:datagrid && npm run format:docs",
+    "publish:docs": "npm --workspace packages/docs run deploy"
   }
 }

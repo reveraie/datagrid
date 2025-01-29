@@ -67,6 +67,7 @@ type DataGridEvents = {
 };
 
 type DataGridProps = {
+  gridId?: string;
   className?: string;
   style?: React.CSSProperties;
   columns: DataGridColumn[];
@@ -157,7 +158,7 @@ function gridCell(
   index: number
 ): ReactNode | undefined {
   return column.render
-    ? column.render(column, row, index)
+    ? column.render(row.values[column.name], column, row, index)
     : (row.values[column.name] as ReactNode);
 }
 
@@ -201,6 +202,7 @@ function newId() {
 
 const DataGrid = React.forwardRef<HTMLDivElement, DataGridProps>(function (
   {
+    gridId,
     className,
     style,
     columns = [],
@@ -215,6 +217,7 @@ const DataGrid = React.forwardRef<HTMLDivElement, DataGridProps>(function (
     onCellClick,
     onCellDoubleClick,
     renderComponents = DataGridDefaultProps.renderComponents,
+
     ...restProps
   }: DataGridProps,
   ref
@@ -294,7 +297,7 @@ const DataGrid = React.forwardRef<HTMLDivElement, DataGridProps>(function (
     i += size;
   }
 
-  const id = useRef<string>(newId());
+  const id = useRef<string>(gridId || newId());
 
   const { changeSize, styleElement } = useColumnSize(
     id.current,

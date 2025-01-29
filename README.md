@@ -138,6 +138,8 @@ This project is part of the Reveraie CRM ecosystem. It will remain in active dev
 
 Contributions are welcome!
 
+Help us improve the tests, the documentation and the component!
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](https://github.com/reveraie/datagrid/blob/main/LICENSE) file for more details.

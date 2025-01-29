@@ -1,7 +1,7 @@
 import { JSX, ReactNode, useEffect, useRef, useState } from 'react';
 import { LoadPageContentCallbackType } from './DataGridPage';
 
-const debug_log: (...args: unknown[]) => void = (/*..._args*/) => {
+const debug_log: (...args: unknown[]) => void = (/*...args*/) => {
   // console.log(...args);
 };
 
@@ -19,7 +19,7 @@ export function usePageContent(
 
   useEffect(() => {
     if (!isVisible) {
-      debug_log('page no longer visible', startIndex);
+      // debug_log("page no longer visible", startIndex);
       setContent(loadingContentPlaceholder);
       if (abortControllerRef.current) {
         debug_log('loading aborted -- no longer visible', startIndex, size);
@@ -36,7 +36,7 @@ export function usePageContent(
     loadRows(startIndex, size, abortController.signal)
       .then((result) => {
         if (!abortController.signal.aborted) {
-          debug_log('loading completed', startIndex, size, result);
+          debug_log('loading completed', startIndex, size);
           setContent(result);
         }
       })
