@@ -3,8 +3,26 @@ title: "Edit Cells Example"
 slug: "editcell"
 category: "Examples"
 ---
-# Edit Cells Example
+# Edit Cells
 
+This example allows the user to edit the content of the ```Subject``` column. The custom rendering of the "Subject" column is achieved by providing a ```render``` function in the ```DataGridColumn``` object. This function takes the ```value``` of the cell as an argument and returns the JSX to be rendered.
+
+```tsx
+  const columns: DataGridColumn[] = [
+    //...
+    {
+      name: "subject",
+      label: "Subject",
+      width: "*",
+      render: (value) => {
+        return (
+          <SubjectEditor value={value as string} onChange={handleSubjectEdit} />
+        );
+      },
+    },
+    //...
+  ];
+```
 
 <Tabs>
   <Tab label="Preview">

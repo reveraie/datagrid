@@ -13,7 +13,6 @@ import "@reveraie/datagrid/dist/index.css";
 import React, { useCallback, useState } from "react";
 
 export default function BasicExample() {
-  // DataGridColumn[]
   const columns: DataGridColumn[] = [
     {
       name: "status",

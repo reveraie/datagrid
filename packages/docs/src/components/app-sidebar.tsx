@@ -14,6 +14,7 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import Link from "next/link";
 
 export interface IContentItem {
   title: string;
@@ -47,15 +48,15 @@ export function AppSidebar({ menu }: { menu: IContentItem[] }) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
+              <Link href="/">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                   <GalleryVerticalEnd className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-semibold">Documentation</span>
+                  <span className="font-semibold">Reveraie DataGrid</span>
                   <span className="">v1.0.0</span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -75,7 +76,7 @@ export function AppSidebar({ menu }: { menu: IContentItem[] }) {
                     {item.items.map((item) => (
                       <SidebarMenuSubItem key={item.title}>
                         <SidebarMenuSubButton asChild /*isActive={item.isActive}*/>
-                          <a href={item.url}>{item.title}</a>
+                          <Link href={item.url}>{item.title}</Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                     ))}

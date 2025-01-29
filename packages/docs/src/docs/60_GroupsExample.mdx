@@ -5,7 +5,6 @@ category: "Examples"
 ---
 # Group rows
 
-
 <Tabs>
   <Tab label="Preview">
     <GroupsExample />
@@ -226,3 +225,27 @@ export default function GroupsExample() {
     ```
   </Tab>
 </Tabs>
+
+The ```DataGrid``` supports group rows provided via the ```DataGridRow``` object:
+
+```tsx
+  const rows: DataGridRow[] = [
+    {
+      type: "group",
+      values: {
+        Since: "Today",
+      },
+    },
+    {
+      values: {
+        status: true,
+        from: "Bob Wilson",
+        favorite: true,
+        subject: "Important announcement",
+        attachments: 3,
+        date: "2023-01-01",
+      },
+    },
+    ///...
+  ]
+```

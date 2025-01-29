@@ -17,7 +17,7 @@ const labels = ["Preview", "Code"];
 
 const Tabs: React.FC<TabsProps> = ({ children }) => {
   return (
-    <TabsShad defaultValue="Preview" className="w-full h-full">
+    <TabsShad defaultValue="Preview">
       <TabsList>
         {React.Children.map(children, (child, index) => {
           if (React.isValidElement(child)) {

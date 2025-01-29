@@ -5,6 +5,7 @@ category: "Examples"
 ---
 # 10,000 rows
 
+This example displays 10000 virtual rows.
 
 <Tabs>
   <Tab label="Preview">
@@ -262,3 +263,41 @@ export default function TenThousandRowsExample() {
     ```
   </Tab>
 </Tabs>
+
+When rows has to be displayed, the grid calls the ```loadRows``` callback:
+
+```tsx
+  const loadRows = useCallback(async (startIndex: number, size: number) => {
+    // simulate network delay
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    // generate some data on the fly
+    const result = Array.from(
+      { length: size },
+      (_, index) => index + startIndex
+    ).map(
+      (_, index) =>
+        ({
+          type: "row",
+          values: {
+            status: false,
+            from: `Row: ${startIndex + index}`,
+            favorite: true,
+            subject: `Feature request ${startIndex + index}`,
+            attachments: 2,
+            date: "2023-01-12",
+          },
+        }) as DataGridRow
+    );
+    return { rows: result };
+  }, []);
+
+  return (
+    <DataGrid
+      //...
+      rows={rows} // the first "static" rows
+      totalRowCount={10000} // provide the total rows count
+      loadRows={loadRows} // load rows on demand
+      //...
+    />
+  );
+```

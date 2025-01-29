@@ -5,6 +5,14 @@ category: "Examples"
 ---
 # Basic Example
 
+To get started, provide the ```rows``` and ```columns``` props to the ```DataGrid``` component:
+
+```tsx
+const columns: DataGridColumn[] = [/*...*/];
+const rows: DataGridRow[] = [/*...*/];
+/// ...
+<DataGrid columns={columns} rows={rows} />
+```
 
 <Tabs>
   <Tab label="Preview">
@@ -25,7 +33,6 @@ import "@reveraie/datagrid/dist/index.css";
 import React, { useCallback, useState } from "react";
 
 export default function BasicExample() {
-  // DataGridColumn[]
   const columns: DataGridColumn[] = [
     {
       name: "status",
