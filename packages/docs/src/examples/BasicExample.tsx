@@ -23,9 +23,9 @@ export default function BasicExample() {
         return (
           <div>
             {value ? (
-              <EnvelopeOpenIcon className="w-full h-full" />
+              <EnvelopeOpenIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             ) : (
-              <EnvelopeIcon className="w-full h-full" />
+              <EnvelopeIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             )}
           </div>
         );
@@ -44,9 +44,9 @@ export default function BasicExample() {
         return (
           <div onClick={handleStartClick}>
             {value ? (
-              <StarIconSolid className="w-full h-full" />
+              <StarIconSolid className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             ) : (
-              <StarIcon className="w-full h-full" />
+              <StarIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             )}
           </div>
         );
@@ -64,7 +64,7 @@ export default function BasicExample() {
       render: (value) => {
         return (
           <div>
-            {value ? <PaperClipIcon className="w-full h-full" /> : null}
+            {value ? <PaperClipIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" /> : null}
           </div>
         );
       },
@@ -218,7 +218,7 @@ export default function BasicExample() {
         return updatedRows;
       });
     },
-    [rows]
+    []
   );
 
   return (

@@ -23,9 +23,9 @@ export default function TenThousandRowsExample() {
         return (
           <div>
             {value ? (
-              <EnvelopeOpenIcon className="w-full h-full" />
+              <EnvelopeOpenIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             ) : (
-              <EnvelopeIcon className="w-full h-full" />
+              <EnvelopeIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             )}
           </div>
         );
@@ -44,9 +44,9 @@ export default function TenThousandRowsExample() {
         return (
           <div>
             {value ? (
-              <StarIconSolid className="w-full h-full" />
+              <StarIconSolid className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             ) : (
-              <StarIcon className="w-full h-full" />
+              <StarIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             )}
           </div>
         );
@@ -64,7 +64,7 @@ export default function TenThousandRowsExample() {
       render: (value) => {
         return (
           <div>
-            {value ? <PaperClipIcon className="w-full h-full" /> : null}
+            {value ? <PaperClipIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" /> : null}
           </div>
         );
       },
@@ -198,24 +198,28 @@ export default function TenThousandRowsExample() {
     },
   ];
 
+  // (startIndex: number, size: number,  abortSignal: AbortSignal) => Promise<DataGridRow[]>;
   const loadRows = useCallback(async (startIndex: number, size: number) => {
     // simulate network delay
     await new Promise((resolve) => setTimeout(resolve, 500));
     // generate some data on the fly
-    const result: DataGridRow[] = Array.from(
+    const result = Array.from(
       { length: size },
       (_, index) => index + startIndex
-    ).map((_, index) => ({
-      type: "row",
-      values: {
-        status: false,
-        from: `Row: ${startIndex + index}`,
-        favorite: true,
-        subject: `Feature request ${startIndex + index}`,
-        attachments: 2,
-        date: "2023-01-12",
-      },
-    }));
+    ).map(
+      (_, index) =>
+        ({
+          type: "row",
+          values: {
+            status: false,
+            from: `Row: ${startIndex + index}`,
+            favorite: true,
+            subject: `Feature request ${startIndex + index}`,
+            attachments: 2,
+            date: "2023-01-12",
+          },
+        }) as DataGridRow
+    );
     return { rows: result };
   }, []);
 
@@ -236,8 +240,8 @@ export default function TenThousandRowsExample() {
 
   return (
     <DataGrid
-      gridId="tenk"
-      className="max-h-[650px]"
+      gridId="2"
+      className="max-h-64"
       columns={columns}
       rows={rows} // the first "static" rows
       totalRowCount={10000} // provide the total rows count

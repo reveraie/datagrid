@@ -1,23 +1,26 @@
 import { compile, run } from "@mdx-js/mdx";
-import fs from "fs";
 import * as runtime from "react/jsx-runtime";
-import { DOCS_PATH, getContents } from "@/src/lib/readDocs";
-import { SidebarTrigger } from "@/src/components/ui/sidebar";
+import { getContents } from "@/lib/readDocs";
+import Example01 from "@/examples/example-01";
+import BasicExample from "@/examples/BasicExample";
+
+import rehypePrettyCode from "rehype-pretty-code";
+import Tabs from "@/components/Tabs";
+import Tab from "@/components/Tab";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Separator } from "@radix-ui/react-separator";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/src/components/ui/breadcrumb";
-import Example01 from "@/src/examples/Example01";
-import Example02 from "@/src/examples/Example02";
-import BasicExample from "@/src/examples/BasicExample";
-import CodeBlock from "@/src/components/code-block";
-import Example from "@/src/components/example";
-import TenThousandRowsExample from "@/src/examples/TenThousandRowsExample";
-import { PageProps } from "@/.next/types/app/page";
+} from "@/components/ui/breadcrumb";
+import { ModeToggle } from "@/components/mode-toggle";
+import ComfortExample from "@/examples/ComfortExample";
+import ComprehensiveExample from "@/examples/ComprehensiveExample";
+import GroupsExample from "@/examples/GroupsExample";
+import TenThousandRowsExample from "@/examples/TenThousandRowsExample";
 
 //https://github.com/hashicorp/next-mdx-remote
 
@@ -25,14 +28,7 @@ function ClientComponent() {
   return <div>Client Component</div>;
 }
 
-// MDX can be retrieved from anywhere, such as a file or a database.
-const mdxSource = `# Hello, world!
-<ClientComponent />
-`;
-
 export async function generateStaticParams() {
-  const files = fs.readdirSync(DOCS_PATH);
-
   const contents = getContents();
 
   return contents
@@ -42,8 +38,12 @@ export async function generateStaticParams() {
     }));
 }
 
-export default async function Page({ params }: PageProps) {
-  const { slug } = await params;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const slug = (await params).slug;
 
   const contents = getContents();
   const artcile = contents.find((article) => article.slug === slug);
@@ -59,7 +59,12 @@ export default async function Page({ params }: PageProps) {
   // Compile the MDX source code to a function body
 
   const code = String(
-    await compile(artcile.content, { outputFormat: "function-body" })
+    await compile(artcile.content, {
+      outputFormat: "function-body",
+      rehypePlugins: [
+        [rehypePrettyCode, { theme: "github-dark", keepBackground: true }],
+      ],
+    })
   );
   // You can then either run the code on the server, generating a server
   // component, or you can pass the string to a client component for
@@ -75,46 +80,40 @@ export default async function Page({ params }: PageProps) {
   return (
     <>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b">
-        <div className="flex items-center gap-2 px-3">
+        <div className="flex items-center gap-2 px-3 w-full">
           <SidebarTrigger />
-          {/* <Separator orientation="vertical" className="mr-2 h-4" /> */}
+          <Separator orientation="vertical" className="mr-2 h-4" />
           <Breadcrumb>
             <BreadcrumbList>
-              {artcile.path &&
-                artcile.path.map((item, index) => {
-                  return (
-                    <>
-                      <BreadcrumbItem
-                        className="hidden md:block"
-                      >
-                        <BreadcrumbLink href="#">{item}</BreadcrumbLink>
-                      </BreadcrumbItem>
-                      <BreadcrumbSeparator
-                        className="hidden md:block"
-                      />
-                    </>
-                  );
-                })}
-              <BreadcrumbItem key={"end"}>
+              <BreadcrumbItem className="hidden md:block">
+                {artcile.category}
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
                 <BreadcrumbPage>{artcile.title}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
+          <div className="grow"></div>
+          <ModeToggle />
         </div>
       </header>
-
-      <div className="prose">
-        <MDXContent
-          components={{
-            Example,
-            ClientComponent,
-            Example01,
-            Example02,
-            BasicExample,
-            TenThousandRowsExample,
-            CodeBlock,
-          }}
-        />
+      <div className="flex flex-1 flex-col gap-4 p-6 items-center">
+        <div className="prose prose-lg dark:prose-invert w-full">
+          <MDXContent
+            components={{
+              Tabs,
+              Tab,
+              Example01,
+              ClientComponent,
+              BasicExample,
+              ComfortExample,
+              ComprehensiveExample,
+              GroupsExample,
+              TenThousandRowsExample,
+            }}
+          />
+        </div>
       </div>
     </>
   );

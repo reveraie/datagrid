@@ -1,12 +1,10 @@
-import * as React from "react";
-import { GalleryVerticalEnd } from "lucide-react";
-import path from "path";
+import * as React from "react"
+import { GalleryVerticalEnd } from "lucide-react"
 
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -15,8 +13,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
-} from "@/src/components/ui/sidebar";
-import Link from "next/link";
+} from "@/components/ui/sidebar"
 
 export interface IContentItem {
   title: string;
@@ -25,152 +22,8 @@ export interface IContentItem {
   items?: IContentItem[];
 }
 
-// This is sample data.
-const data = {
-  navMain: [
-    {
-      title: "Getting Started",
-      url: "#",
-      items: [
-        {
-          title: "Page 1",
-          url: "/dashboard/page1",
-        },
-        {
-          title: "Installation",
-          url: "#",
-        },
-        {
-          title: "Project Structure",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Building Your Application",
-      url: "#",
-      items: [
-        {
-          title: "Routing",
-          url: "#",
-        },
-        {
-          title: "Data Fetching",
-          url: "#",
-          isActive: true,
-        },
-        {
-          title: "Rendering",
-          url: "#",
-        },
-        {
-          title: "Caching",
-          url: "#",
-        },
-        {
-          title: "Styling",
-          url: "#",
-        },
-        {
-          title: "Optimizing",
-          url: "#",
-        },
-        {
-          title: "Configuring",
-          url: "#",
-        },
-        {
-          title: "Testing",
-          url: "#",
-        },
-        {
-          title: "Authentication",
-          url: "#",
-        },
-        {
-          title: "Deploying",
-          url: "#",
-        },
-        {
-          title: "Upgrading",
-          url: "#",
-        },
-        {
-          title: "Examples",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "API Reference",
-      url: "#",
-      items: [
-        {
-          title: "Components",
-          url: "#",
-        },
-        {
-          title: "File Conventions",
-          url: "#",
-        },
-        {
-          title: "Functions",
-          url: "#",
-        },
-        {
-          title: "next.config.js Options",
-          url: "#",
-        },
-        {
-          title: "CLI",
-          url: "#",
-        },
-        {
-          title: "Edge Runtime",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Architecture",
-      url: "#",
-      items: [
-        {
-          title: "Accessibility",
-          url: "#",
-        },
-        {
-          title: "Fast Refresh",
-          url: "#",
-        },
-        {
-          title: "Next.js Compiler",
-          url: "#",
-        },
-        {
-          title: "Supported Browsers",
-          url: "#",
-        },
-        {
-          title: "Turbopack",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Community",
-      url: "#",
-      items: [
-        {
-          title: "Contribution Guide",
-          url: "#",
-        },
-      ],
-    },
-  ],
-};
-
 export function AppSidebar({ menu }: { menu: IContentItem[] }) {
+
   const category: IContentItem[] = [];
   menu.forEach((item) => {
     if (
@@ -208,38 +61,32 @@ export function AppSidebar({ menu }: { menu: IContentItem[] }) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        {category.map((catrgoryItem, index) => (
-          <SidebarGroup key={index}>
-            <SidebarGroupLabel>{catrgoryItem.title}</SidebarGroupLabel>
-            <SidebarMenu>
-              {(catrgoryItem.items || []).map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url} className="font-medium">
-                      {item.title}
-                    </a>
-                  </SidebarMenuButton>
-                  {item.items?.length ? (
-                    <SidebarMenuSub>
-                      {item.items.map((item) => (
-                        <SidebarMenuSubItem key={item.title}>
-                          <SidebarMenuSubButton
-                            asChild
-                            // isActive={item.isActive}
-                          >
-                            <Link href={item.url}>{item.title}</Link>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub>
-                  ) : null}
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroup>
-        ))}
+        <SidebarGroup>
+          <SidebarMenu>
+            {category.map((item) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton asChild>
+                  <a href={item.url} className="font-medium">
+                    {item.title}
+                  </a>
+                </SidebarMenuButton>
+                {item.items?.length ? (
+                  <SidebarMenuSub>
+                    {item.items.map((item) => (
+                      <SidebarMenuSubItem key={item.title}>
+                        <SidebarMenuSubButton asChild /*isActive={item.isActive}*/>
+                          <a href={item.url}>{item.title}</a>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    ))}
+                  </SidebarMenuSub>
+                ) : null}
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
-  );
+  )
 }
