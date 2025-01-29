@@ -21,6 +21,8 @@ import ComfortExample from "@/examples/ComfortExample";
 import ComprehensiveExample from "@/examples/ComprehensiveExample";
 import GroupsExample from "@/examples/GroupsExample";
 import TenThousandRowsExample from "@/examples/TenThousandRowsExample";
+import { ArrowRightIcon } from "lucide-react";
+import Link from "next/link";
 
 //https://github.com/hashicorp/next-mdx-remote
 
@@ -102,6 +104,8 @@ export default async function Page({
         <div className="prose prose-lg dark:prose-invert w-full">
           <MDXContent
             components={{
+              ArrowRightIcon,
+              Link,
               Tabs,
               Tab,
               Example01,

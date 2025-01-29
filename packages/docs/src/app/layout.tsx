@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 export const metadata: Metadata = {
   title: "Reveraie DataGrid",
   description: "React Data Grid Component",
+  keywords: ["DataGrid", "React", "Data Grid", "Virtualization"],
 };
 
 export default function RootLayout({

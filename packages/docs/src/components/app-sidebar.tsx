@@ -33,7 +33,7 @@ export function AppSidebar({ menu }: { menu: IContentItem[] }) {
       category.push({
         title: item.category,
         category: "",
-        url: "#",
+        url: item.url,
         items: [],
       });
     }
@@ -66,9 +66,9 @@ export function AppSidebar({ menu }: { menu: IContentItem[] }) {
             {category.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
-                  <a href={item.url} className="font-medium">
+                  <Link href={item.url} className="font-medium">
                     {item.title}
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
                 {item.items?.length ? (
                   <SidebarMenuSub>
