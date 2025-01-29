@@ -16,5 +16,8 @@
     "format:docs": "npm --workspace packages/docs run format",
     "format": "npm run format:datagrid && npm run format:docs",
     "publish:docs": "npm --workspace packages/docs run deploy"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
 }

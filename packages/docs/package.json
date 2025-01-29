@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write src/**/*.{js,jsx,ts,tsx,json,css,md}"
+    "format": "prettier --write src/**/*.{js,jsx,ts,tsx,json,css,md}",
+    "deploy": "gh-pages -d out"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
