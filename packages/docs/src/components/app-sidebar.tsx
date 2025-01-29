@@ -1,5 +1,5 @@
-import * as React from "react"
-import { GalleryVerticalEnd } from "lucide-react"
+import * as React from "react";
+import { GalleryVerticalEnd } from "lucide-react";
 
 import {
   Sidebar,
@@ -13,7 +13,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 import Link from "next/link";
 
 export interface IContentItem {
@@ -24,7 +24,6 @@ export interface IContentItem {
 }
 
 export function AppSidebar({ menu }: { menu: IContentItem[] }) {
-
   const category: IContentItem[] = [];
   menu.forEach((item) => {
     if (
@@ -75,7 +74,9 @@ export function AppSidebar({ menu }: { menu: IContentItem[] }) {
                   <SidebarMenuSub>
                     {item.items.map((item) => (
                       <SidebarMenuSubItem key={item.title}>
-                        <SidebarMenuSubButton asChild /*isActive={item.isActive}*/>
+                        <SidebarMenuSubButton
+                          asChild /*isActive={item.isActive}*/
+                        >
                           <Link href={item.url}>{item.title}</Link>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
@@ -89,5 +90,5 @@ export function AppSidebar({ menu }: { menu: IContentItem[] }) {
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

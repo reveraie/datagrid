@@ -50,7 +50,7 @@ const rows = [
           attachments: 2,
           date: "2023-01-12",
         },
-      }) as DataGridRow
+      }) as DataGridRow,
   ),
 ];
 
@@ -110,7 +110,9 @@ export default function ComprehensiveExample() {
       render: (value) => {
         return (
           <div>
-            {value ? <PaperClipIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" /> : null}
+            {value ? (
+              <PaperClipIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+            ) : null}
           </div>
         );
       },
@@ -135,7 +137,7 @@ export default function ComprehensiveExample() {
 
       setLoadedRows((prev) => [...prev]); // just cause prop change and reload of the DataGrid
     },
-    []
+    [],
   );
 
   const handleSubjectEdit = useCallback(
@@ -151,7 +153,7 @@ export default function ComprehensiveExample() {
       rows[rowNumber].values.subject = value;
       setLoadedRows((prev) => [...prev]); // just cause prop change and reload of the DataGrid
     },
-    []
+    [],
   );
 
   const loadRows = useCallback(async (startIndex: number, size: number) => {

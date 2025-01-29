@@ -63,7 +63,9 @@ export default function BasicExample() {
       render: (value) => {
         return (
           <div>
-            {value ? <PaperClipIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" /> : null}
+            {value ? (
+              <PaperClipIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+            ) : null}
           </div>
         );
       },
@@ -200,7 +202,7 @@ export default function BasicExample() {
   const handleStartClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       const row = (e.target as HTMLDivElement).closest(
-        ".dg-row"
+        ".dg-row",
       ) as HTMLDivElement;
       if (!row) return;
       const rowIndex = Number(row.getAttribute("data-row-index"));
@@ -217,7 +219,7 @@ export default function BasicExample() {
         return updatedRows;
       });
     },
-    []
+    [],
   );
 
   return (

@@ -64,7 +64,9 @@ export default function TenThousandRowsExample() {
       render: (value) => {
         return (
           <div>
-            {value ? <PaperClipIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" /> : null}
+            {value ? (
+              <PaperClipIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+            ) : null}
           </div>
         );
       },
@@ -205,7 +207,7 @@ export default function TenThousandRowsExample() {
     // generate some data on the fly
     const result = Array.from(
       { length: size },
-      (_, index) => index + startIndex
+      (_, index) => index + startIndex,
     ).map(
       (_, index) =>
         ({
@@ -218,7 +220,7 @@ export default function TenThousandRowsExample() {
             attachments: 2,
             date: "2023-01-12",
           },
-        }) as DataGridRow
+        }) as DataGridRow,
     );
     return { rows: result };
   }, []);
@@ -226,15 +228,10 @@ export default function TenThousandRowsExample() {
   const loadingPlaceholder = useCallback((startIndex: number, size: number) => {
     return Array.from({ length: size }, (_, index) => index + startIndex).map(
       (_, index) => (
-        <div
-          key={startIndex + index}
-          className="dg-row dg-row-loading w-full"
-        >
-          <div className="rounded-md bg-primary/10 w-full pl-2">
-            &nbsp;
-          </div>
+        <div key={startIndex + index} className="dg-row dg-row-loading w-full">
+          <div className="rounded-md bg-primary/10 w-full pl-2">&nbsp;</div>
         </div>
-      )
+      ),
     );
   }, []);
 

@@ -64,7 +64,7 @@ export default async function Page({
       rehypePlugins: [
         [rehypePrettyCode, { theme: "github-dark", keepBackground: true }],
       ],
-    })
+    }),
   );
   // You can then either run the code on the server, generating a server
   // component, or you can pass the string to a client component for

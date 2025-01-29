@@ -64,7 +64,9 @@ export default function GroupsExample() {
       render: (value) => {
         return (
           <div>
-            {value ? <PaperClipIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" /> : null}
+            {value ? (
+              <PaperClipIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+            ) : null}
           </div>
         );
       },
@@ -209,5 +211,7 @@ export default function GroupsExample() {
       },
     },
   ];
-  return <DataGrid gridId="2" className="max-h-64" columns={columns} rows={rows} />;
+  return (
+    <DataGrid gridId="2" className="max-h-64" columns={columns} rows={rows} />
+  );
 }
