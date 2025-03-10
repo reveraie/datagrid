@@ -13,7 +13,7 @@ This example displays 10000 virtual rows.
   </Tab>
   <Tab label="Code">
     ```tsx
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 
 import {
   EnvelopeIcon,
@@ -27,7 +27,7 @@ import { DataGrid, DataGridColumn, DataGridRow } from "@reveraie/datagrid";
 import "@reveraie/datagrid/dist/index.css";
 
 export default function TenThousandRowsExample() {
-  const columns: DataGridColumn[] = [
+  const [columns, setColumns] = useState([
     {
       name: "status",
       width: 32,
@@ -36,9 +36,9 @@ export default function TenThousandRowsExample() {
         return (
           <div>
             {value ? (
-              <EnvelopeOpenIcon className="w-full h-full" />
+              <EnvelopeOpenIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             ) : (
-              <EnvelopeIcon className="w-full h-full" />
+              <EnvelopeIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             )}
           </div>
         );
@@ -57,9 +57,9 @@ export default function TenThousandRowsExample() {
         return (
           <div>
             {value ? (
-              <StarIconSolid className="w-full h-full" />
+              <StarIconSolid className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             ) : (
-              <StarIcon className="w-full h-full" />
+              <StarIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
             )}
           </div>
         );
@@ -77,7 +77,9 @@ export default function TenThousandRowsExample() {
       render: (value) => {
         return (
           <div>
-            {value ? <PaperClipIcon className="w-full h-full" /> : null}
+            {value ? (
+              <PaperClipIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+            ) : null}
           </div>
         );
       },
@@ -87,7 +89,8 @@ export default function TenThousandRowsExample() {
       label: "Date",
       width: 100,
     },
-  ];
+  ] as DataGridColumn[]);
+
   const rows = [
     {
       values: {
@@ -218,7 +221,7 @@ export default function TenThousandRowsExample() {
     // generate some data on the fly
     const result = Array.from(
       { length: size },
-      (_, index) => index + startIndex
+      (_, index) => index + startIndex,
     ).map(
       (_, index) =>
         ({
@@ -231,7 +234,7 @@ export default function TenThousandRowsExample() {
             attachments: 2,
             date: "2023-01-12",
           },
-        }) as DataGridRow
+        }) as DataGridRow,
     );
     return { rows: result };
   }, []);
@@ -239,13 +242,24 @@ export default function TenThousandRowsExample() {
   const loadingPlaceholder = useCallback((startIndex: number, size: number) => {
     return Array.from({ length: size }, (_, index) => index + startIndex).map(
       (_, index) => (
-        <div
-          key={startIndex + index}
-          className="dg-row dg-row-loading h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 full-width mb-4"
-        ></div>
-      )
+        <div key={startIndex + index} className="dg-row dg-row-loading w-full">
+          <div className="rounded-md bg-primary/10 w-full pl-2">&nbsp;</div>
+        </div>
+      ),
     );
   }, []);
+
+  const handleColumnReorder = useCallback(
+    (fromIndex: number, toIndex: number) => {
+      setColumns((prev) => {
+        const updatedColumns = [...prev];
+        const [movedColumn] = updatedColumns.splice(fromIndex, 1);
+        updatedColumns.splice(toIndex, 0, movedColumn);
+        return updatedColumns;
+      });
+    },
+    [],
+  );
 
   return (
     <DataGrid
@@ -256,6 +270,7 @@ export default function TenThousandRowsExample() {
       totalRowCount={10000} // provide the total rows count
       loadRows={loadRows} // load rows on demand
       placeholder={loadingPlaceholder} // what component to display as a placeholder
+      onColumnReorder={handleColumnReorder}
     />
   );
 }

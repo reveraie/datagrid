@@ -127,6 +127,39 @@ Example grid structure that use these classes:
   color: var(--dg-header-foreground);
 }
 
+.dg-header .dg-resize-handler {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 0.5rem;
+  cursor: col-resize;
+}
+
+.dg-header .dg-drop-left-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0.5rem;
+
+  border-right: 0.5rem solid var(--dg-highlight-cell-border-color);
+  border-bottom: 1rem solid transparent;
+  border-top: 1rem solid transparent;
+}
+
+.dg-header .dg-drop-right-indicator {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 0.5rem;
+
+  border-left: 0.5rem solid var(--dg-highlight-cell-border-color);
+  border-bottom: 1rem solid transparent;
+  border-top: 1rem solid transparent;
+}
+
 .dg-group-row {
   flex: 1;
 

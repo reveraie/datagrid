@@ -13,7 +13,7 @@ import "@reveraie/datagrid/dist/index.css";
 import React, { useCallback, useState } from "react";
 
 export default function BasicExample() {
-  const columns: DataGridColumn[] = [
+  const [columns, setColumns] = useState([
     {
       name: "status",
       width: 32,
@@ -75,7 +75,8 @@ export default function BasicExample() {
       label: "Date",
       width: 100,
     },
-  ];
+  ] as DataGridColumn[]);
+
   const [rows, setRows] = useState<DataGridRow[]>([
     {
       values: {
@@ -222,7 +223,25 @@ export default function BasicExample() {
     [],
   );
 
+  const handleColumnReorder = useCallback(
+    (fromIndex: number, toIndex: number) => {
+      setColumns((prev) => {
+        const updatedColumns = [...prev];
+        const [movedColumn] = updatedColumns.splice(fromIndex, 1);
+        updatedColumns.splice(toIndex, 0, movedColumn);
+        return updatedColumns;
+      });
+    },
+    [],
+  );
+
   return (
-    <DataGrid gridId="1" className="max-h-64" columns={columns} rows={rows} />
+    <DataGrid
+      gridId="1"
+      className="max-h-64"
+      columns={columns}
+      rows={rows}
+      onColumnReorder={handleColumnReorder}
+    />
   );
 }
