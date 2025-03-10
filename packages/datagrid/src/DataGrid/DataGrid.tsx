@@ -8,11 +8,11 @@ import GridPage, {
 
 // import './DataGrid.css';
 import './DataGrid-Tailwind.css';
-import ColumnHeader from './ColumnHeader';
 import useColumnSize from './useColumnSize';
 import React from 'react';
-import ColumnHeaderFixed from './ColumnHeaderFixed';
+import ColumnHeader, { ColumnHeaderProps } from './ColumnHeader';
 import { useClick } from './useClick';
+import ColumnHeaderResizable from './ColumnHeaderResizable';
 
 const debug_log: (..._args: unknown[]) => void = () => {
   // console.log(...args);
@@ -37,10 +37,7 @@ interface DataGridRenderComponents {
     key?: number
   ) => ReactNode;
   renderGridHeaderCell?: (
-    column: DataGridColumn,
-    index: number,
-    changeSize?: (index: number, newSize: number | string | undefined) => void,
-    onClick?: (column: DataGridColumn) => void
+    columnHeaderProps: ColumnHeaderProps
   ) => ReactNode | undefined;
   renderGridCell?: (
     column: DataGridColumn,
@@ -64,6 +61,7 @@ type DataGridEvents = {
   ) => void;
   onCellClick?: DataGridEventHandler;
   onCellDoubleClick?: DataGridEventHandler;
+  onColumnReorder?: (fromIndex: number, toIndex: number) => void;
 };
 
 type DataGridProps = {
@@ -135,21 +133,11 @@ const gridRow = (
   );
 };
 
-const gridHeaderCell = (
-  column: DataGridColumn,
-  index: number,
-  changeSize?: (index: number, newSize: number | string | undefined) => void,
-  onClick?: (column: DataGridColumn) => void
-) =>
-  column.allowResize === false ? (
-    <ColumnHeaderFixed column={column} index={index} onClick={onClick} />
+const gridHeaderCell = ({ ...props }: ColumnHeaderProps) =>
+  props.column.allowResize === false ? (
+    <ColumnHeader {...props} />
   ) : (
-    <ColumnHeader
-      column={column}
-      index={index}
-      onClick={onClick}
-      onChangeSize={changeSize}
-    />
+    <ColumnHeaderResizable {...props} />
   );
 
 function gridCell(
@@ -214,6 +202,7 @@ const DataGrid = React.forwardRef<HTMLDivElement, DataGridProps>(function (
     placeholder,
     onColumnHeaderClick,
     onColumnSizeChange,
+    onColumnReorder,
     onCellClick,
     onCellDoubleClick,
     renderComponents = DataGridDefaultProps.renderComponents,
@@ -299,10 +288,7 @@ const DataGrid = React.forwardRef<HTMLDivElement, DataGridProps>(function (
 
   const id = useRef<string>(gridId || newId());
 
-  const { changeSize, styleElement } = useColumnSize(
-    id.current,
-    columns.map((c) => c.width)
-  );
+  const { changeSize, styleElement } = useColumnSize(id.current, columns);
 
   const handleChangeSize = useCallback(
     (index: number, newSize: number | string | undefined) => {
@@ -316,7 +302,13 @@ const DataGrid = React.forwardRef<HTMLDivElement, DataGridProps>(function (
     columns,
     EMPTY_ROW,
     (col, _row, index) =>
-      renderGridHeaderCell(col, index, handleChangeSize, onColumnHeaderClick),
+      renderGridHeaderCell({
+        column: col,
+        index,
+        onChangeSize: handleChangeSize,
+        onClick: onColumnHeaderClick,
+        onReorder: onColumnReorder,
+      }),
     -1
   );
 

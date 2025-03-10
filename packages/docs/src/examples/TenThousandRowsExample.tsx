@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 
 import {
   EnvelopeIcon,
@@ -14,7 +14,7 @@ import { DataGrid, DataGridColumn, DataGridRow } from "@reveraie/datagrid";
 import "@reveraie/datagrid/dist/index.css";
 
 export default function TenThousandRowsExample() {
-  const columns: DataGridColumn[] = [
+  const [columns, setColumns] = useState([
     {
       name: "status",
       width: 32,
@@ -76,7 +76,8 @@ export default function TenThousandRowsExample() {
       label: "Date",
       width: 100,
     },
-  ];
+  ] as DataGridColumn[]);
+
   const rows = [
     {
       values: {
@@ -235,6 +236,18 @@ export default function TenThousandRowsExample() {
     );
   }, []);
 
+  const handleColumnReorder = useCallback(
+    (fromIndex: number, toIndex: number) => {
+      setColumns((prev) => {
+        const updatedColumns = [...prev];
+        const [movedColumn] = updatedColumns.splice(fromIndex, 1);
+        updatedColumns.splice(toIndex, 0, movedColumn);
+        return updatedColumns;
+      });
+    },
+    [],
+  );
+
   return (
     <DataGrid
       gridId="2"
@@ -244,6 +257,7 @@ export default function TenThousandRowsExample() {
       totalRowCount={10000} // provide the total rows count
       loadRows={loadRows} // load rows on demand
       placeholder={loadingPlaceholder} // what component to display as a placeholder
+      onColumnReorder={handleColumnReorder}
     />
   );
 }

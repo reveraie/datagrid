@@ -1,4 +1,5 @@
-import { useCallback, useRef } from 'react';
+import { useCallback } from 'react';
+import { DataGridColumn } from './DataGridModels';
 
 function widthValue(size: string | number | undefined) {
   if (size === '*') {
@@ -13,11 +14,11 @@ function widthValue(size: string | number | undefined) {
   return size;
 }
 
-function styleContent(id: string, widths: (string | number | undefined)[]) {
-  const styles = `.dg-grid-${id} {${widths
+function styleContent(id: string, columns: DataGridColumn[]) {
+  const styles = `.dg-grid-${id} {${columns
     .map(
-      (size, index) =>
-        `.dg-row .dg-cell:nth-child(${index + 1}) { ${widthValue(size)} }`
+      (column, index) =>
+        `.dg-row .dg-cell:nth-child(${index + 1}) { ${widthValue(column.width)} }`
     )
     .join('\n')}}`;
   return styles;
@@ -27,35 +28,28 @@ function styleId(id: string) {
   return `dg-grid-style-${id}`;
 }
 
-function updateStyle(id: string, widths: (string | number | undefined)[]) {
+function updateStyle(id: string, columns: DataGridColumn[]) {
   const styleElement = document.getElementById(styleId(id));
   if (!styleElement) return;
-  const styles = styleContent(id, widths);
+  const styles = styleContent(id, columns);
   styleElement.textContent = styles;
 }
 
-function useColumnSize(
-  id: string,
-  initialWidths: (string | number | undefined)[]
-) {
-  const widths = useRef([...initialWidths]); // Keep track of current widths
-
+function useColumnSize(id: string, columns: DataGridColumn[]) {
   // Method to change the size of a specific column
   const changeSize = useCallback(
     (index: number, newSize: number | string | undefined) => {
-      if (index >= 0 && index < widths.current.length) {
-        widths.current[index] = newSize;
-        updateStyle(id, widths.current);
+      if (index >= 0 && index < columns.length) {
+        columns[index].width = newSize;
+        updateStyle(id, columns);
       }
     },
-    [id]
+    [columns, id]
   );
 
   return {
     changeSize,
-    styleElement: (
-      <style id={styleId(id)}>{styleContent(id, widths.current)}</style>
-    ),
+    styleElement: <style id={styleId(id)}>{styleContent(id, columns)}</style>,
   };
 }
 
