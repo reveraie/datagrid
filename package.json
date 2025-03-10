@@ -18,6 +18,7 @@
     "publish:docs": "npm --workspace packages/docs run deploy"
   },
   "devDependencies": {
+    "esbuild": "^0.25.1",
     "gh-pages": "^6.3.0"
   }
 }
