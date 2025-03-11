@@ -10,7 +10,7 @@ import GridPage, {
 import './DataGrid-Tailwind.css';
 import useColumnSize from './useColumnSize';
 import React from 'react';
-import ColumnHeader, { ColumnHeaderProps } from './ColumnHeader';
+import { ColumnHeaderProps } from './ColumnHeader';
 import { useClick } from './useClick';
 import ColumnHeaderResizable from './ColumnHeaderResizable';
 
@@ -133,12 +133,9 @@ const gridRow = (
   );
 };
 
-const gridHeaderCell = ({ ...props }: ColumnHeaderProps) =>
-  props.column.allowResize === false ? (
-    <ColumnHeader {...props} />
-  ) : (
-    <ColumnHeaderResizable {...props} />
-  );
+const gridHeaderCell = ({ ...props }: ColumnHeaderProps) => (
+  <ColumnHeaderResizable {...props} />
+);
 
 function gridCell(
   column: DataGridColumn,

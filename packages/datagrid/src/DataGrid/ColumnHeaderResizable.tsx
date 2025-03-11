@@ -93,12 +93,9 @@ function ColumnHeaderResizable({
         ? {
             draggable: true,
             onDragStart: handleDragStart,
-            onDrop: handleDrop,
-            onDragOver: handleDragOver,
-            onDragLeave: handleDragLeave,
           }
         : {},
-    [onReorder, handleDragStart, handleDrop, handleDragOver, handleDragLeave]
+    [onReorder, handleDragStart]
   );
 
   return (
@@ -106,17 +103,22 @@ function ColumnHeaderResizable({
       <div
         aria-label={`Column ${index + 1} drag handler`}
         onClick={handleOnClick}
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
         {...reoderArgs}
       >
         {labelOf(column)}
       </div>
-      <div
-        aria-label={`Column ${index + 1} resize handler`}
-        className="dg-resize-handler"
-        onMouseDown={handleResize}
-      />
-      {isDragOver === 'LEFT' && <div className="dg-drop-left-indicator" />}
-      {isDragOver === 'RIGHT' && <div className="dg-drop-right-indicator" />}
+      {column.allowResize && (
+        <div
+          aria-label={`Column ${index + 1} resize handler`}
+          className="dg-resize-handler"
+          onMouseDown={handleResize}
+        />
+      )}
+      {isDragOver === 'LEFT' && <div className="dg-drop-left-indicator" aria-label={`Left of column ${index + 1}`} />}
+      {isDragOver === 'RIGHT' && <div className="dg-drop-right-indicator" aria-label={`Right of column ${index + 1}`} />}
     </div>
   );
 }

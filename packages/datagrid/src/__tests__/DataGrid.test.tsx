@@ -18,9 +18,9 @@ describe('DataGrid Component', () => {
     const onClickMock = jest.fn();
     const columns = [
       { name: 'col1', label: 'Column 1' },
-      { name: 'col1', label: 'Column 2' },
+      { name: 'col2', label: 'Column 2' },
     ];
-    const rows = [{ values: { 'Column 1': 'Value 1', 'Column 2': 'Value 2' } }];
+    const rows = [{ values: { col1: 'Value 1', col2: 'Value 2' } }];
     render(
       <DataGrid
         columns={columns}
@@ -147,4 +147,47 @@ describe('DataGrid Component', () => {
     expect(screen.getByText('Row 3')).toBeInTheDocument();
     expect(screen.getByText('Row 4')).toBeInTheDocument();
   });
+
+  it('reorder columns', async () => {
+    const columns = [
+      { name: 'col1', label: 'c1label', allowResize: false },
+      { name: 'col2', label: 'c2label', allowResize: false },
+    ];
+    const rows = [{ values: { col1: 'Row 1 Value 1', col2: 'Row 1 Value 2' } }];
+    const onColumnReorderMock = jest.fn();
+    render(
+      <DataGrid
+        columns={columns}
+        rows={rows}
+        onColumnReorder={onColumnReorderMock}
+      />
+    );
+    expect(screen.getByText('Row 1 Value 1')).toBeInTheDocument();
+    expect(screen.getByLabelText('Column 1 drag handler')).toBeInTheDocument();
+
+    const column1DragHandler = screen.getByLabelText('Column 1 drag handler');
+    const column2DragHandler = screen.getByLabelText('Column 2 drag handler');
+
+    let data = '';
+    // Mock the dataTransfer object
+    const dataTransfer = {
+      setData: (_: unknown, index: string) => {
+        data = index;
+      },
+      getData: () => data,
+    };
+
+    // Drag and drop column 1 to the right
+    fireEvent.dragStart(column1DragHandler, { dataTransfer });
+    fireEvent.dragEnter(column2DragHandler, { dataTransfer });
+    fireEvent.dragOver(column2DragHandler, { dataTransfer });
+
+    await waitFor(() => screen.getByLabelText('Right of column 2'));
+
+    fireEvent.drop(column2DragHandler, { dataTransfer });
+    fireEvent.dragEnd(column2DragHandler, { dataTransfer });
+
+    await waitFor(() => expect(onColumnReorderMock).toHaveBeenCalledWith(0, 1));
+  });
+
 });
