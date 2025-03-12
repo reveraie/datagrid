@@ -13,6 +13,9 @@ function ColumnHeaderResizable({
   onChangeSize,
   onReorder,
 }: ColumnHeaderProps) {
+  const isColumnResizable =
+    column.allowResize === undefined || column.allowResize;
+
   const [width, setWidth] = useState<number | undefined>(
     typeof column.width === 'number' ? column.width : 100
   );
@@ -110,15 +113,25 @@ function ColumnHeaderResizable({
       >
         {labelOf(column)}
       </div>
-      {column.allowResize && (
+      {isColumnResizable && (
         <div
           aria-label={`Column ${index + 1} resize handler`}
           className="dg-resize-handler"
           onMouseDown={handleResize}
         />
       )}
-      {isDragOver === 'LEFT' && <div className="dg-drop-left-indicator" aria-label={`Left of column ${index + 1}`} />}
-      {isDragOver === 'RIGHT' && <div className="dg-drop-right-indicator" aria-label={`Right of column ${index + 1}`} />}
+      {isDragOver === 'LEFT' && (
+        <div
+          className="dg-drop-left-indicator"
+          aria-label={`Left of column ${index + 1}`}
+        />
+      )}
+      {isDragOver === 'RIGHT' && (
+        <div
+          className="dg-drop-right-indicator"
+          aria-label={`Right of column ${index + 1}`}
+        />
+      )}
     </div>
   );
 }
