@@ -190,4 +190,21 @@ describe('DataGrid Component', () => {
     await waitFor(() => expect(onColumnReorderMock).toHaveBeenCalledWith(0, 1));
   });
 
+  it('resize columns', () => {
+    const columns = [
+      { name: 'col1', label: 'c1label', allowResize: true },
+      { name: 'col2', label: 'c2label', allowResize: false },
+    ];
+    const rows = [{ values: { col1: 'Row 1 Value 1', col2: 'Row 1 Value 2' } }];
+    render(<DataGrid columns={columns} rows={rows} />);
+    expect(screen.getByText('Row 1 Value 1')).toBeInTheDocument();
+    expect(screen.getByLabelText('Column 1 drag handler')).toBeInTheDocument();
+
+    expect(
+      screen.queryByLabelText('Column 1 resize handler')
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByLabelText('Column 2 resize handler')
+    ).not.toBeInTheDocument();
+  });
 });
