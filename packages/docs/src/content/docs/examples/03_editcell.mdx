@@ -1,0 +1,36 @@
+---
+title: Edit Cell
+description: Edit cell
+---
+
+import { Steps, Code, Tabs, TabItem } from '@astrojs/starlight/components';
+import sourceCode from '/src/examples/ComprehensiveExample.tsx?raw';
+import ComprehensiveExample from '/src/examples/ComprehensiveExample.tsx'
+
+This example allows the user to edit the content of the **Subject** column. The custom rendering is achieved by providing a render function in the `DataGridColumn` object. This function takes the value of the cell as an argument and returns the JSX to be rendered.
+
+```ts
+  const columns: DataGridColumn[] = [
+    //...
+    {
+      name: "subject",
+      label: "Subject",
+      width: "*",
+      render: (value) => {
+        return (
+          <SubjectEditor value={value as string} onChange={handleSubjectEdit} />
+        );
+      },
+    },
+    //...
+  ];
+```
+
+<Tabs>
+  <TabItem label="Preview">
+      <ComprehensiveExample client:load />
+  </TabItem>
+  <TabItem label="Code">
+    <Code code={sourceCode} lang="json" title="demo.tsx" />
+  </TabItem>
+</Tabs>
