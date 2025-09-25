@@ -8,7 +8,6 @@ import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
 
 import { DataGrid, type DataGridColumn, type DataGridRow } from "@reveraie/datagrid";
 import "@reveraie/datagrid/dist/index.css";
-// import "./DataGrid.css";
 import "./style.css"
 
 import React, { useCallback, useState } from "react";

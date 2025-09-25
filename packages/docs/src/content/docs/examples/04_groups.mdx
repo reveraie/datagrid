@@ -1,0 +1,44 @@
+---
+title: Group rows
+description: Group rows
+---
+
+import { Steps, Code, Tabs, TabItem } from '@astrojs/starlight/components';
+import sourceCode from '/src/examples/GroupsExample.tsx?raw';
+import GroupsExample from '/src/examples/GroupsExample.tsx'
+
+The `DataGrid` supports group rows provided via the DataGridRow object:
+
+
+```ts
+const rows: DataGridRow[] = [
+    // this row will appear as a group row
+    {
+      type: "group",
+      values: {
+        Since: "Today",
+      },
+    },
+    // we do not need to privide the type for standard rows
+    {
+      values: {
+        status: true,
+        from: "Bob Wilson",
+        favorite: true,
+        subject: "Important announcement",
+        attachments: 3,
+        date: "2023-01-01",
+      },
+    },
+    ///...
+  ]
+```
+
+<Tabs>
+  <TabItem label="Preview">
+      <GroupsExample client:load />
+  </TabItem>
+  <TabItem label="Code">
+    <Code code={sourceCode} lang="json" title="demo.tsx" />
+  </TabItem>
+</Tabs>

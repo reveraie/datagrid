@@ -4,7 +4,6 @@ import { EnvelopeIcon, EnvelopeOpenIcon } from "@heroicons/react/24/outline";
 
 import { DataGrid, type DataGridColumn, type DataGridRow } from "@reveraie/datagrid";
 import "@reveraie/datagrid/dist/index.css";
-// import "./DataGrid.css"
 import "./style.css"
 
 export default function ComfortExample() {

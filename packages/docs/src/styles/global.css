@@ -1,5 +1,22 @@
 @layer base, starlight, theme, components, utilities;
 
-@import '@astrojs/starlight-tailwind';
+/* @import '@astrojs/starlight-tailwind'; */
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/utilities.css' layer(utilities);
+
+.bg-loading {
+  background-color: var(--sl-color-white);
+  opacity: 0.1;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.pl-2 {
+  padding-left: 0.5rem;
+}
+
+.bg-primary {
+    background-color: hsla(var(--sl-color-black), 0.1);
+}
