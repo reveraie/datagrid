@@ -29,7 +29,7 @@ export default defineConfig({
           },
           {
               label: 'Reference',
-              autogenerate: { directory: 'reference' },
+              items: [{ label: 'API Reference', slug: 'reference' }],
           },
       ],
       }), react()],
