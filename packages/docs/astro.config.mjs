@@ -9,7 +9,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   integrations: [starlight({
-      title: 'Reveraie DataGrid',
+      title: '@reveraie/datagrid',
       customCss: [
         // Path to your Tailwind base styles:
         './src/styles/global.css',
