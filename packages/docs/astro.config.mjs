@@ -29,7 +29,10 @@ export default defineConfig({
           },
           {
               label: 'Reference',
-              items: [{ label: 'API Reference', slug: 'reference' }],
+              items: [
+                  { label: 'API Reference', slug: 'reference' },
+                  { label: 'HTML & CSS Reference', slug: 'html-css-reference' },
+                ],
           },
       ],
       }), react()],
