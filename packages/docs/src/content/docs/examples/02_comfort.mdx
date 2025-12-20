@@ -1,0 +1,27 @@
+---
+title: Comfort variant
+description: Comfort variant
+---
+
+import { Steps, Code, Tabs, TabItem } from '@astrojs/starlight/components';
+import sourceCode from '/src/examples/ComfortExample.tsx?raw';
+import ComfortExample from '/src/examples/ComfortExample.tsx'
+
+The `DataGrid` component offers built-in support for both compact and comfortable spacing between columns. With no external styling library dependencies, all visual customization is handled within the DataGrid.css file. This allows for easy customization of the grid's appearance by simply importing and modifying your own version of the CSS file.
+
+```ts
+    <DataGrid
+        className="dg-comfort"
+        columns={columns}
+        rows={rows}
+    />
+```
+
+<Tabs>
+  <TabItem label="Preview">
+      <ComfortExample client:load />
+  </TabItem>
+  <TabItem label="Code">
+    <Code code={sourceCode} lang="json" title="demo.tsx" />
+  </TabItem>
+</Tabs>

@@ -1,5 +1,3 @@
-"use client";
-
 import {
   EnvelopeIcon,
   EnvelopeOpenIcon,
@@ -8,8 +6,10 @@ import {
 } from "@heroicons/react/24/outline";
 import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
 
-import { DataGrid, DataGridColumn, DataGridRow } from "@reveraie/datagrid";
+import { DataGrid, type DataGridColumn, type DataGridRow } from "@reveraie/datagrid";
 import "@reveraie/datagrid/dist/index.css";
+import "./style.css"
+
 import React, { useCallback, useState } from "react";
 
 export default function BasicExample() {
@@ -33,7 +33,7 @@ export default function BasicExample() {
     {
       name: "from",
       label: "From",
-      width: 100,
+      width: 120,
     },
     {
       name: "favorite",
@@ -73,7 +73,7 @@ export default function BasicExample() {
     {
       name: "date",
       label: "Date",
-      width: 100,
+      width: 120,
     },
   ] as DataGridColumn[]);
 

@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useCallback, useState } from "react";
 
 import {
@@ -10,8 +8,10 @@ import {
 } from "@heroicons/react/24/outline";
 import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
 
-import { DataGrid, DataGridColumn, DataGridRow } from "@reveraie/datagrid";
+import { DataGrid, type DataGridColumn, type DataGridRow } from "@reveraie/datagrid";
 import "@reveraie/datagrid/dist/index.css";
+// import "./DataGrid.css"
+import "./style.css"
 
 function SubjectEditor({
   value,
@@ -157,7 +157,7 @@ export default function ComprehensiveExample() {
   );
 
   const loadRows = useCallback(async (startIndex: number, size: number) => {
-    console.log(`Loading rows from ${startIndex} to ${startIndex + size}`);
+    console.log(`Simulating loading rows from ${startIndex} to ${startIndex + size}`);
     // simulate network delay
     await new Promise((resolve) => setTimeout(resolve, 100));
     return { rows: rows.slice(startIndex, startIndex + size) };
@@ -166,7 +166,7 @@ export default function ComprehensiveExample() {
   return (
     <DataGrid
       gridId="comprehensive-example"
-      className="max-h-64 dg-comfort"
+      className="max-h-64"
       columns={columns}
       rows={loadedRows} // rows will be loaded on demand -- we provide an empty array here
       totalRowCount={rows.length} // optional, defaults to the rows.length if rows are provided

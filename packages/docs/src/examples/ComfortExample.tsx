@@ -1,11 +1,10 @@
-"use client";
-
 import React from "react";
 
 import { EnvelopeIcon, EnvelopeOpenIcon } from "@heroicons/react/24/outline";
 
-import { DataGrid, DataGridColumn, DataGridRow } from "@reveraie/datagrid";
+import { DataGrid, type DataGridColumn, type DataGridRow } from "@reveraie/datagrid";
 import "@reveraie/datagrid/dist/index.css";
+import "./style.css"
 
 export default function ComfortExample() {
   const columns: DataGridColumn[] = [
@@ -28,7 +27,7 @@ export default function ComfortExample() {
     {
       name: "from",
       label: "From",
-      width: 100,
+      width: 120,
     },
     {
       name: "subject",
@@ -38,7 +37,7 @@ export default function ComfortExample() {
     {
       name: "date",
       label: "Date",
-      width: 100,
+      width: 120,
     },
   ];
   const rows: DataGridRow[] = [

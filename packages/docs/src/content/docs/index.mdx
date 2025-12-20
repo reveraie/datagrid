@@ -1,0 +1,43 @@
+---
+title: "@reveraie/datagrid"
+description: A zero-dependency, lightweight, and performant datagrid for React.
+template: splash
+hero:
+  tagline: A zero-dependency, lightweight, and performant datagrid for React. Built for performance, designed for simplicity.
+  actions:
+    - text: Get Started
+      link: /guides/getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: View Examples
+      link: /examples/01_basic/
+      icon: right-arrow
+---
+import BasicExample from '/src/examples/BasicExample.tsx';
+
+<BasicExample client:load />
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Features
+
+<CardGrid>
+	<Card title="High Performance" icon="rocket">
+		Built from the ground up for speed. Handles thousands of rows with ease using row virtualization and on-demand loading.
+	</Card>
+	<Card title="Zero Dependency" icon="puzzle">
+		No third-party libraries (besides React). Drop it into any project without worrying about bloat or conflicts.
+	</Card>
+	<Card title="Fully Customizable" icon="setting">
+		Use custom components to render cells and editors. Tailor the look, feel, and behavior to match your application's needs.
+	</Card>
+	<Card title="Rich Interaction" icon="laptop">
+		Includes essential features like column resizing, reordering, and in-cell editing right out-of-the-box.
+	</Card>
+  <Card title="Data Grouping" icon="list-checks">
+		Organize and group related rows to provide a clear and structured view of your data.
+	</Card>
+  <Card title="Lightweight & Simple" icon="paper-airplane">
+		With a minimal API and a focus on core grid functionality, it's easy to learn, use, and extend.
+	</Card>
+</CardGrid>

@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 
 import {
@@ -10,8 +8,9 @@ import {
 } from "@heroicons/react/24/outline";
 import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
 
-import { DataGrid, DataGridColumn, DataGridRow } from "@reveraie/datagrid";
+import { DataGrid, type DataGridColumn, type DataGridRow } from "@reveraie/datagrid";
 import "@reveraie/datagrid/dist/index.css";
+import "./style.css"
 
 export default function GroupsExample() {
   const columns: DataGridColumn[] = [

@@ -1,0 +1,38 @@
+---
+title: Basic Example
+description: Basic Example
+---
+
+import { Steps, Code, Tabs, TabItem } from '@astrojs/starlight/components';
+import sourceCode from '/src/examples/BasicExample.tsx?raw';
+import BasicExample from '/src/examples/BasicExample.tsx'
+
+<Steps>
+
+1. Import the component along width it's style:
+
+    ```ts
+    import { DataGrid } from "@reveraie/datagrid";
+    import "@reveraie/datagrid/dist/index.css";
+    ```
+
+2. To get started, provide the rows and columns props to the DataGrid component:
+
+    ```ts
+    const columns: DataGridColumn[] = [/*...*/];
+    const rows: DataGridRow[] = [/*...*/];
+    /// ...
+    <DataGrid columns={columns} rows={rows} />
+    ```
+
+</Steps>
+
+
+<Tabs>
+  <TabItem label="Preview">
+      <BasicExample client:load />
+  </TabItem>
+  <TabItem label="Code">
+    <Code code={sourceCode} lang="json" title="demo.tsx" />
+  </TabItem>
+</Tabs>

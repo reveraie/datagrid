@@ -1,0 +1,170 @@
+---
+title: API Reference
+description: A complete reference for the DataGrid component's public API, props, and types.
+---
+import { Tabs, TabItem, Card, CardGrid } from '@astrojs/starlight/components';
+
+This page provides a detailed reference for the `@reveraie/datagrid` public API.
+
+## Components
+
+### `<DataGrid />`
+
+The main component used to render a data grid.
+
+## Component Props
+
+The `DataGrid` component accepts the following props.
+
+| Prop               | Type                                                              | Required | Default     | Description                                                                                             |
+| ------------------ | ----------------------------------------------------------------- | -------- | ----------- | ------------------------------------------------------------------------------------------------------- |
+| `columns`          | `DataGridColumn[]`                                                | Yes      |             | An array defining the columns of the grid.                                                              |
+| `rows`             | `DataGridRow[]`                                                   | No       | `[]`        | An array of initial row data to display.                                                                |
+| `totalRowCount`    | `number`                                                          | No       | `rows.length` | The total number of rows in the dataset, used for virtualization with `loadRows`.                       |
+| `pageSize`         | `number`                                                          | No       | `100`       | The number of rows to include in each virtualized page.                                                 |
+| `loadRows`         | `LoadPageDataCallbackType`                                        | No       |             | A callback function to load row data on-demand as the user scrolls.                                     |
+| `placeholder`      | `LoadPageContentPlaceholderCallbackType`                          | No       |             | A function that returns placeholder elements to display while `loadRows` is fetching data.              |
+| `rowId`            | `(row: DataGridRow, index: number) => string`                     | No       | (internal)  | A function to provide a stable, unique ID for each row, important for performance and state management. |
+| `renderComponents` | `DataGridRenderComponents`                                        | No       | `{}`        | An object of functions to override the default rendering for different parts of the grid.             |
+| `onCellClick`      | `DataGridEventHandler`                                            | No       |             | Callback fired when a cell is clicked.                                                                  |
+| `onCellDoubleClick`| `DataGridEventHandler`                                            | No       |             | Callback fired when a cell is double-clicked.                                                           |
+| `onColumnHeaderClick`| `(column: DataGridColumn) => void`                              | No       |             | Callback fired when a column header is clicked.                                                         |
+| `onColumnReorder`  | `(fromIndex: number, toIndex: number) => void`                    | No       |             | Callback fired after a column has been dragged and dropped to a new position.                           |
+| `onColumnSizeChange`| `(index: number, newSize: number \| string) => void`             | No       |             | Callback fired when a column's width is changed.                                                        |
+| `gridId`           | `string`                                                          | No       | (generated) | An optional unique identifier for the grid.                                                             |
+| `className`        | `string`                                                          | No       |             | Additional CSS class name(s) to apply to the root grid element.                                         |
+| `style`            | `React.CSSProperties`                                             | No       |             | Inline styles to apply to the root grid element.                                                        |
+
+## Core Types
+
+These are the main data structures used to provide data and configuration to the grid.
+
+### `DataGridColumn`
+
+Defines the behavior and appearance of a single column.
+
+```typescript
+interface DataGridColumn {
+  name: string;
+  label?: React.ReactNode | ((col: DataGridColumn) => React.ReactNode);
+  width?: number | string;
+  allowResize?: boolean;
+  autoSize?: boolean;
+  render?: DataGridColumnRender;
+}
+```
+
+| Property      | Type                                                        | Description                                                                                                   |
+| ------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `name`        | `string`                                                    | A unique identifier for the column. Must match a key in the `DataGridRow['values']` object.                   |
+| `label`       | `React.ReactNode \| ((col) => React.ReactNode)`             | The content to display in the column header. Can be a React node or a function returning one.               |
+| `width`       | `number \| string`                                          | The width of the column in pixels (`100`), a percentage (`"50%"`), or `"*"` to fill available space.       |
+| `allowResize` | `boolean`                                                   | Whether the column can be resized by the user. Defaults to `true`.                                            |
+| `autoSize`    | `boolean`                                                   | (Not yet implemented) Intended to automatically size the column based on its content.                         |
+| `render`      | `DataGridColumnRender`                                      | A custom render function for the cells in this column.                                                        |
+
+### `DataGridRow`
+
+Represents a single row of data in the grid.
+
+```typescript
+interface DataGridRow {
+  type?: 'row' | 'group';
+  values: Record<string, unknown>;
+}
+```
+
+| Property | Type                     | Description                                                                                                                              |
+| -------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`   | `'row' \| 'group'`         | The type of the row. Use `'group'` to render a visual group separator. Defaults to `'row'`.                                              |
+| `values` | `Record<string, unknown>`| A key-value map of the data for this row. The keys should correspond to the `name` property of your `DataGridColumn` definitions.         |
+
+
+## Callbacks & Renderers
+
+Customize the grid's behavior and appearance using these function types.
+
+### `DataGridColumnRender`
+
+A function passed to a `DataGridColumn` to provide a custom component or value for a cell.
+
+```typescript
+type DataGridColumnRender = (
+  value: unknown,
+  column: DataGridColumn,
+  row: DataGridRow,
+  index: number
+) => React.ReactNode;
+```
+- **`value`**: The value for the current cell, derived from `row.values[column.name]`.
+- **`column`**: The definition of the current column.
+- **`row`**: The data for the entire current row.
+- **`index`**: The row index.
+- **Returns**: A `React.ReactNode` to be rendered inside the cell.
+
+### `LoadPageDataCallbackType`
+
+The signature for the `loadRows` prop, used for on-demand data loading.
+
+```typescript
+type LoadPageDataCallbackType = (
+  startIndex: number,
+  size: number,
+  abortSignal: AbortSignal
+) => Promise<{ rows: DataGridRow[]; totalCount?: number }>;
+```
+- **`startIndex`**: The starting index of the rows to fetch.
+- **`size`**: The number of rows requested (i.e., the `pageSize`).
+- **`abortSignal`**: An `AbortSignal` to cancel the request if the component unmounts or the request becomes stale.
+- **Returns**: A `Promise` that resolves to an object containing the fetched `rows` and an optional `totalCount`.
+
+### `LoadPageContentPlaceholderCallbackType`
+
+The signature for the `placeholder` prop, used to show loading indicators.
+
+```typescript
+type LoadPageContentPlaceholderCallbackType = (
+  startIndex: number,
+  size: number
+) => JSX.Element[];
+```
+- **`startIndex`**: The starting index of the placeholder rows.
+- **`size`**: The number of placeholder rows to render.
+- **Returns**: An array of `JSX.Element`s to display while waiting for data.
+
+### `DataGridEventHandler`
+
+The signature for `onCellClick` and `onCellDoubleClick` events.
+
+```typescript
+type DataGridEventHandler = (
+  e: React.MouseEvent<HTMLDivElement>,
+  target: {
+    row: number;
+    col: number;
+    rowId: unknown;
+    colName: unknown;
+  } | undefined
+) => void;
+```
+- **`e`**: The raw React mouse event.
+- **`target`**: An object containing the resolved `row` and `col` index of the event, along with the `rowId` and `colName`, or `undefined` if the click was outside a cell.
+
+### `DataGridRenderComponents`
+
+An object containing optional functions to override the default rendering of major grid elements.
+
+```typescript
+interface DataGridRenderComponents {
+  renderGroupRow?: (row: DataGridRow, key: number) => React.ReactNode | undefined;
+  renderGridRow?: (
+    columns: DataGridColumn[],
+    row: DataGridRow,
+    value: (col: DataGridColumn, row: DataGridRow, index: number) => React.ReactNode | undefined,
+    key?: number
+  ) => React.ReactNode;
+  renderGridHeaderCell?: (columnHeaderProps: ColumnHeaderProps) => React.ReactNode | undefined;
+  renderGridCell?: (column: DataGridColumn, row: DataGridRow, index: number) => React.ReactNode | undefined;
+}
+```
+This provides an escape hatch for advanced customization, allowing you to take full control over how rows and cells are rendered.

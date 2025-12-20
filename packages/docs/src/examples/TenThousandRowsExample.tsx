@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useCallback, useState } from "react";
 
 import {
@@ -10,8 +8,9 @@ import {
 } from "@heroicons/react/24/outline";
 import { StarIcon as StarIconSolid } from "@heroicons/react/24/solid";
 
-import { DataGrid, DataGridColumn, DataGridRow } from "@reveraie/datagrid";
+import { DataGrid, type DataGridColumn, type DataGridRow } from "@reveraie/datagrid";
 import "@reveraie/datagrid/dist/index.css";
+import "./style.css"
 
 export default function TenThousandRowsExample() {
   const [columns, setColumns] = useState([
@@ -201,7 +200,7 @@ export default function TenThousandRowsExample() {
     },
   ];
 
-  // (startIndex: number, size: number,  abortSignal: AbortSignal) => Promise<DataGridRow[]>;
+  // (startIndex: number, size: number, abortSignal: AbortSignal) => Promise<DataGridRow[]>;
   const loadRows = useCallback(async (startIndex: number, size: number) => {
     // simulate network delay
     await new Promise((resolve) => setTimeout(resolve, 500));
@@ -230,7 +229,7 @@ export default function TenThousandRowsExample() {
     return Array.from({ length: size }, (_, index) => index + startIndex).map(
       (_, index) => (
         <div key={startIndex + index} className="dg-row dg-row-loading w-full">
-          <div className="rounded-md bg-primary/10 w-full pl-2">&nbsp;</div>
+          <div className="rounded-md bg-loading w-full pl-2">&nbsp;</div>
         </div>
       ),
     );
