@@ -33,7 +33,7 @@ export default function BasicExample() {
     {
       name: "from",
       label: "From",
-      width: 100,
+      width: 120,
     },
     {
       name: "favorite",
@@ -73,7 +73,7 @@ export default function BasicExample() {
     {
       name: "date",
       label: "Date",
-      width: 100,
+      width: 120,
     },
   ] as DataGridColumn[]);
 
