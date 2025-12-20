@@ -1,3 +1,7 @@
+/**
+ * DataGrid component which composes header,
+ *   rows and lazy-loaded pages (GridPage)
+ */
 import { ReactNode, useCallback, useRef } from 'react';
 
 import { DataGridColumn, DataGridRow } from './DataGridModels';
@@ -14,16 +18,28 @@ import { ColumnHeaderProps } from './ColumnHeader';
 import { useClick } from './useClick';
 import ColumnHeaderResizable from './ColumnHeaderResizable';
 
+// A no-op debug logger that can be enabled for local debugging without
+// changing callsites. Intentionally left as an empty function in production.
 const debug_log: (..._args: unknown[]) => void = () => {
   // console.log(...args);
 };
 
+/**
+ * Callback used to request a page of rows from an external data source.
+ * - startIndex: inclusive start index for rows to fetch
+ * - size: number of rows requested
+ * - abortSignal: signal to support cancellation of the fetch
+ */
 export type LoadPageDataCallbackType = (
   startIndex: number,
   size: number,
   abortSignal: AbortSignal
 ) => Promise<{ rows: DataGridRow[]; totalCount?: number }>;
 
+/**
+ * Optional renderers for specific grid elements. Use these to customize
+ * rendering of group rows, grid rows, header cells and data cells.
+ */
 interface DataGridRenderComponents {
   renderGroupRow?: (row: DataGridRow, key: number) => ReactNode | undefined;
   renderGridRow?: (
@@ -79,11 +95,17 @@ type DataGridProps = {
 } & DataGridEvents &
   React.HTMLAttributes<HTMLDivElement>;
 
+/** A simple placeholder row used when rendering the header row via renderGridRow. */
 const EMPTY_ROW: DataGridRow = {
   type: 'row',
   values: {},
 };
 
+/**
+ * Render a "group" row (a row that groups other rows visually).
+ * Uses the first key in row.values as the display content.
+ * Assumption: group rows store their label/value in the first property of values.
+ */
 const groupRow = (
   row: DataGridRow,
   key: number,
@@ -101,6 +123,11 @@ const groupRow = (
   );
 };
 
+/**
+ * Render a standard data row by mapping columns to cells.
+ * - Each cell gets data-cell-index and data-cell-name attributes used for
+ *   click-resolution (getRowAndCol).
+ */
 const gridRow = (
   columns: DataGridColumn[],
   row: DataGridRow,
@@ -133,10 +160,16 @@ const gridRow = (
   );
 };
 
+// Small wrapper: header cell uses a resizable header implementation by default.
 const gridHeaderCell = ({ ...props }: ColumnHeaderProps) => (
   <ColumnHeaderResizable {...props} />
 );
 
+/**
+ * Resolve a cell's rendered content:
+ * - If the column provides a custom renderer use that (allows rich content).
+ * - Otherwise return the raw cell value stored in row.values.
+ */
 function gridCell(
   column: DataGridColumn,
   row: DataGridRow,
@@ -165,6 +198,10 @@ const testLoadRows: LoadPageDataCallbackType = async (
   };
 };
 
+/**
+ * Default function to derive a stable row id from a row object.
+ * Looks for common identifiers ('row-id', 'id'), and falls back to "row-{index}".
+ */
 const defaultRowId: (row: DataGridRow, index: number) => string = (
   row,
   index
@@ -181,10 +218,18 @@ const DataGridDefaultProps = {
 };
 
 let count = 0;
+/** Simple id generator for grid instances to scope styles and state. */
 function newId() {
   return `gid-${count++}`;
 }
 
+/**
+ * Top-level DataGrid component:
+ * - Renders a header row then the provided rows.
+ * - Fills the remainder of totalRowCount with GridPage placeholders that lazy-load
+ *   their contents via loadRows (or a test stub).
+ * - Hooks column-resizing and click/double-click events to consumers via props.
+ */
 const DataGrid = React.forwardRef<HTMLDivElement, DataGridProps>(function (
   {
     gridId,
@@ -210,6 +255,7 @@ const DataGrid = React.forwardRef<HTMLDivElement, DataGridProps>(function (
 ) {
   debug_log(`reload DataGrid ...`);
 
+  // Default renderers used if consumer hasn't provided custom renderers.
   const defaultRenderGridRow = useCallback(
     (
       columns: DataGridColumn[],
@@ -240,11 +286,18 @@ const DataGrid = React.forwardRef<HTMLDivElement, DataGridProps>(function (
     renderComponents.renderGridHeaderCell || gridHeaderCell;
   const renderGridCell = renderComponents.renderGridCell || gridCell;
 
+  // Attach click handlers that resolve which row/cell was clicked using
+  // getRowAndCol (which relies on data attributes set on cells/rows).
   const { onClick, onDoubleClick } = useClick({
     onClick: (e) => onCellClick?.(e, getRowAndCol(e.target)),
     onDoubleClick: (e) => onCellDoubleClick?.(e, getRowAndCol(e.target)),
   });
 
+  /**
+   * Callback to load a page of rows and map them to React nodes using the
+   * configured renderers.
+   * - Throws if abortSignal is aborted to propagate cancellation.
+   */
   const loadMoreRows = useCallback<LoadPageContentCallbackType>(
     async (startIndex, size, abortSignal) => {
       const moreRows = loadRows
@@ -260,13 +313,16 @@ const DataGrid = React.forwardRef<HTMLDivElement, DataGridProps>(function (
     [columns, loadRows, renderGridCell, renderGridRow, renderGroupRow]
   );
 
+  // Build body using provided rows; group rows and regular rows are rendered
+  // via their respective renderers.
   const body = rows.map((row, index) => {
     return row.type === 'group'
       ? renderGroupRow(row, index)
       : renderGridRow(columns, row, renderGridCell, index);
   });
 
-  // the rest of the rows are loading pages
+  // Fill the remainder of the visible rows with GridPage placeholders that will
+  // request their content asynchronously. This supports simple virtualization.
   const rowsCount = totalRowCount || rows.length;
   let i = body.length;
   while (i < rowsCount) {
@@ -283,10 +339,14 @@ const DataGrid = React.forwardRef<HTMLDivElement, DataGridProps>(function (
     i += size;
   }
 
+  // Stable id for this grid instance (used by useColumnSize to scope styles).
   const id = useRef<string>(gridId || newId());
 
+  // Hook that keeps an injected <style> element updated with column sizes.
   const { changeSize, styleElement } = useColumnSize(id.current, columns);
 
+  // When consumer changes column size forward the change to both local hook
+  // and the optional external onColumnSizeChange callback.
   const handleChangeSize = useCallback(
     (index: number, newSize: number | string | undefined) => {
       changeSize(index, newSize);
@@ -295,6 +355,8 @@ const DataGrid = React.forwardRef<HTMLDivElement, DataGridProps>(function (
     [changeSize, onColumnSizeChange]
   );
 
+  // Render the header row using the renderGridRow path so it benefits from the
+  // same layout as data rows; the key/index -1 denotes header context only.
   const header = renderGridRow(
     columns,
     EMPTY_ROW,
@@ -328,6 +390,9 @@ const DataGrid = React.forwardRef<HTMLDivElement, DataGridProps>(function (
   );
 });
 
+// Utility that walks the DOM from the event target to determine which cell and
+// row were the source of an event. Returns undefined if the required data
+// attributes cannot be found.
 function getRowAndCol(
   target: EventTarget | null
 ): { row: number; col: number; rowId: unknown; colName: unknown } | undefined {
