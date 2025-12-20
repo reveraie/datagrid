@@ -27,7 +27,7 @@ export default function ComfortExample() {
     {
       name: "from",
       label: "From",
-      width: 100,
+      width: 120,
     },
     {
       name: "subject",
@@ -37,7 +37,7 @@ export default function ComfortExample() {
     {
       name: "date",
       label: "Date",
-      width: 100,
+      width: 120,
     },
   ];
   const rows: DataGridRow[] = [

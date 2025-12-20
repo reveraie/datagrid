@@ -200,10 +200,10 @@ export default function TenThousandRowsExample() {
     },
   ];
 
-  // (startIndex: number, size: number,  abortSignal: AbortSignal) => Promise<DataGridRow[]>;
+  // (startIndex: number, size: number, abortSignal: AbortSignal) => Promise<DataGridRow[]>;
   const loadRows = useCallback(async (startIndex: number, size: number) => {
     // simulate network delay
-    await new Promise((resolve) => setTimeout(resolve, 50000));
+    await new Promise((resolve) => setTimeout(resolve, 500));
     // generate some data on the fly
     const result = Array.from(
       { length: size },

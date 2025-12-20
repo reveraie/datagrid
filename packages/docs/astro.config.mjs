@@ -9,12 +9,12 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   integrations: [starlight({
-      title: 'My Docs',
+      title: 'Reveraie DataGrid',
       customCss: [
         // Path to your Tailwind base styles:
         './src/styles/global.css',
       ],
-      social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
+      social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/reveraie/datagrid' }],
       sidebar: [
           {
               label: 'Guides',
