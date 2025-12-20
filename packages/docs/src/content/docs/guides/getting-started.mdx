@@ -1,0 +1,59 @@
+---
+title: Getting Started
+description: How to install and use the DataGrid component.
+---
+import { Tabs, TabItem, Code } from '@astrojs/starlight/components';
+
+Learn how to add the Reveraie DataGrid to your project.
+
+## Installation
+
+You can add the DataGrid to your project in two ways:
+
+### 1. Install via npm (Recommended)
+
+Install the package from npm to receive updates and bug fixes.
+
+```bash
+npm install @reveraie/datagrid
+```
+
+### 2. Copy the source
+
+For maximum control and customization, you can copy the component source code directly into your project. The component has zero third-party dependencies, making this a clean and simple process.
+
+- Copy the folder `packages/datagrid/src/DataGrid` into your own project's source tree.
+
+## Basic Usage
+
+Once installed, you can import the `DataGrid` component and its stylesheet. Provide it with an array of `columns` and `rows`.
+
+```tsx
+import React from 'react';
+import { DataGrid, type DataGridColumn, type DataGridRow } from '@reveraie/datagrid';
+import '@reveraie/datagrid/dist/index.css';
+
+const columns: DataGridColumn[] = [
+  { name: 'id', label: 'ID', width: 80 },
+  { name: 'name', label: 'Name' },
+  { name: 'age', label: 'Age', width: 100 },
+];
+
+const rows: DataGridRow[] = [
+  { values: { id: 1, name: 'John Doe', age: 35 } },
+  { values: { id: 2, name: 'Jane Smith', age: 28 } },
+  { values: { id: 3, name: 'Alice Johnson', age: 42 } },
+];
+
+function App() {
+  return (
+    <div style={{ height: 300, width: '100%' }}>
+      <DataGrid columns={columns} rows={rows} />
+    </div>
+  );
+}
+
+export default App;
+```
+
+This will render a basic grid. To see more advanced examples, including on-demand data loading and custom cell renderers, check out the **Examples** section.
